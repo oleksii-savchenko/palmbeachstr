@@ -1,0 +1,75 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images"
+public_folder: "/images"
+
+locale: en
+
+collections:
+
+  # ── УСЛУГИ ──
+  - name: "services"
+    label: "Services"
+    label_singular: "Service"
+    folder: "content/services"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Number", name: "number", widget: "string", hint: "e.g. 01" }
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Photo", name: "photo", widget: "image" }
+
+  # ── ПОРТФОЛИО ──
+  - name: "portfolio"
+    label: "Portfolio"
+    label_singular: "Photo"
+    folder: "content/portfolio"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Label (Before/After etc.)", name: "label", widget: "string", required: false }
+
+  # ── ОТЗЫВЫ ──
+  - name: "reviews"
+    label: "Reviews"
+    label_singular: "Review"
+    folder: "content/reviews"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Name", name: "name", widget: "string" }
+      - { label: "Initials", name: "initials", widget: "string", hint: "e.g. PS" }
+      - { label: "Date & Service", name: "meta", widget: "string", hint: "e.g. April 2026 · Interior Design" }
+      - { label: "Review Text", name: "text", widget: "text" }
+
+  # ── ЦЕНЫ ──
+  - name: "pricing"
+    label: "Prices"
+    label_singular: "Service Price"
+    folder: "content/pricing"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Service Name", name: "name", widget: "string" }
+      - { label: "Price", name: "price", widget: "string", hint: "e.g. From $3,000" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Photo", name: "photo", widget: "image" }
+
+  # ── КОНТАКТЫ ──
+  - name: "settings"
+    label: "Settings & Contacts"
+    files:
+      - label: "Contact Information"
+        name: "contacts"
+        file: "content/settings/contacts.json"
+        fields:
+          - { label: "Email", name: "email", widget: "string" }
+          - { label: "Instagram URL", name: "instagram", widget: "string" }
+          - { label: "LinkedIn URL", name: "linkedin", widget: "string" }
+          - { label: "Thumbtack URL", name: "thumbtack", widget: "string" }
+          - { label: "Address", name: "address", widget: "string" }
