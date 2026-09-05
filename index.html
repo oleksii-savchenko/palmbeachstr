@@ -1,0 +1,4604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palm Beach STR Design</title>
+<link rel="icon" type="image/svg+xml" href="images/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold:  #FED461;
+    --dark:  #171717;
+    --dark2: #151515;
+    --white: #FFFFFF;
+  }
+
+  html { scroll-padding-top: 90px; }
+  @media (min-width: 769px) {
+    html { scroll-behavior: smooth; }
+  }
+  @media (max-width: 768px) {
+    html { scroll-behavior: auto; }
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--white);
+    color: var(--dark2);
+    overflow-x: hidden;
+  }
+
+  /* ════════════════════════════════════════
+     NAV
+  ════════════════════════════════════════ */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    height: clamp(64px, 5vw, 90px);
+    background: transparent;
+    transition: background .4s, backdrop-filter .4s;
+  }
+  nav.scrolled {
+    background: rgba(250,248,245,.92);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    box-shadow: 0 2px 24px rgba(0,0,0,.08);
+  }
+  nav.scrolled .nav-links a { color: #151515; }
+  nav.scrolled .nav-links a:hover { color: var(--gold); }
+  nav.scrolled .nav-links a.active { color: var(--gold); }
+  nav.scrolled .nav-cta { color: #151515; border-color: #151515; background: transparent; }
+  nav.scrolled .nav-cta:hover { background: var(--gold); color: #151515; }
+  nav.scrolled .nav-toggle span { background: #151515; }
+  /* swap logo to dark version when scrolled */
+  nav.scrolled .nav-logo-img { content: url("images/logo_white.svg"); }
+
+  .nav-logo img {
+    height: clamp(32px, 2.8vw, 53px);
+    width: auto;
+    display: block;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: clamp(24px, 2.5vw, 48px);
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: clamp(13px, 0.85vw, 16px);
+    font-weight: 400;
+    color: var(--white);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  .nav-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(16px, 1.5vw, 28px);
+    height: clamp(40px, 2.8vw, 51px);
+    border: 1px solid var(--gold);
+    border-radius: 5px;
+    font-size: clamp(12px, 0.75vw, 14px);
+    font-weight: 500;
+    color: var(--gold);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: all .25s;
+    flex-shrink: 0;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--dark2); }
+
+  /* Mobile toggle */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 24px; height: 1.5px;
+    background: var(--white);
+    transition: all .3s;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile menu */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: clamp(64px, 5vw, 90px);
+    left: 0; right: 0;
+    background: rgba(23,23,23,.97);
+    backdrop-filter: blur(16px);
+    z-index: 99;
+    padding: 32px 40px 48px;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s;
+    pointer-events: none;
+  }
+  .mobile-menu.open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: all;
+  }
+  .mobile-menu a {
+    display: block;
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px;
+    color: var(--white);
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    transition: color .2s;
+  }
+  .mobile-menu a:hover { color: var(--gold); }
+  .mobile-menu-cta {
+    display: inline-block !important;
+    margin-top: 28px;
+    padding: 14px 32px !important;
+    border: 1px solid var(--gold) !important;
+    border-radius: 5px;
+    color: var(--gold) !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    border-bottom: 1px solid var(--gold) !important;
+  }
+
+  /* ════════════════════════════════════════
+     HERO
+  ════════════════════════════════════════ */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-bg-dark {
+    position: absolute;
+    inset: 0;
+    background: var(--dark);
+    z-index: 0;
+  }
+  .hero-bg img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: .8;
+    z-index: 1;
+  }
+  /* Видео поверх тёмного фона и картинки */
+  .hero-video {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    z-index: 2 !important;
+    opacity: 1 !important;
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      rgba(23,23,23,.72) 0%,
+      rgba(23,23,23,.45) 55%,
+      rgba(23,23,23,.25) 100%
+    );
+    z-index: 3;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: clamp(100px, 10vw, 160px) clamp(24px, 5.2vw, 100px) clamp(60px, 6vw, 100px);
+  }
+
+  .hero-location {
+    font-size: clamp(13px, 0.85vw, 16px);
+    color: var(--white);
+    margin-bottom: clamp(16px, 1.5vw, 24px);
+    letter-spacing: .02em;
+  }
+
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 5.2vw, 100px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: clamp(24px, 2.5vw, 40px);
+    /* Allow title to stretch wide enough for 2 lines */
+    max-width: 75vw;
+  }
+  .hero-title .highlight { color: var(--gold); }
+  .hero-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .hero-subtitle {
+    font-size: clamp(15px, 1.05vw, 20px);
+    line-height: 1.4;
+    color: var(--white);
+    max-width: 560px;
+    margin-bottom: clamp(36px, 3.5vw, 56px);
+    opacity: .9;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: clamp(12px, 1vw, 16px);
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(24px, 2vw, 40px);
+    height: clamp(48px, 3.5vw, 62px);
+    border-radius: 4px;
+    background: var(--gold);
+    font-size: clamp(14px, 0.9vw, 17px);
+    font-weight: 500;
+    color: var(--dark2);
+    text-decoration: none;
+    transition: all .25s;
+    white-space: nowrap;
+  }
+  .btn-primary:hover { background: #e8c050; transform: translateY(-1px); }
+
+  .btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 0 clamp(24px, 2vw, 40px);
+    height: clamp(48px, 3.5vw, 62px);
+    border-radius: 4px;
+    border: 1px solid var(--gold);
+    font-size: clamp(14px, 0.9vw, 17px);
+    font-weight: 500;
+    color: var(--gold);
+    text-decoration: none;
+    transition: all .25s;
+    white-space: nowrap;
+  }
+  .btn-outline:hover { background: rgba(254,212,97,.1); }
+  .btn-outline svg { width: 15px; height: 15px; fill: var(--gold); flex-shrink: 0; }
+  .btn-outline-icon { width: clamp(14px, 1vw, 18px); height: clamp(14px, 1vw, 18px); object-fit: contain; flex-shrink: 0; }
+
+  /* Stats */
+  .hero-stats {
+    position: absolute;
+    right: clamp(24px, 5.2vw, 100px);
+    bottom: clamp(60px, 6vw, 100px);
+    top: auto;
+    transform: none;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(28px, 3vw, 52px);
+    align-items: flex-end;
+  }
+
+  .stat-item { text-align: right; }
+
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 3.2vw, 60px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--white);
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  .stat-star { padding-top: 4px; }
+  .stat-star svg { width: clamp(14px, 1.1vw, 20px); height: clamp(14px, 1.1vw, 20px); fill: var(--white); }
+
+  .stat-label {
+    font-size: clamp(11px, 0.8vw, 15px);
+    color: var(--white);
+    margin-top: 6px;
+    max-width: 120px;
+    line-height: 1.3;
+    opacity: .85;
+  }
+
+  /* ════════════════════════════════════════
+     SERVICES
+  ════════════════════════════════════════ */
+  .services-section {
+    width: 100%;
+    background: var(--white);
+    padding: clamp(60px, 8vw, 140px) 0 0;
+  }
+
+  .services-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(32px, 4vw, 64px);
+  }
+
+  .services-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 4.7vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--dark2);
+  }
+
+  .services-icon {
+    flex-shrink: 0;
+    width: clamp(36px, 3.75vw, 72px);
+    height: auto;
+    margin-top: 8px;
+  }
+
+  /* ── Service row: left col + right image col ── */
+  .service-row {
+    display: grid;
+    /* Левая: от левого отступа до середины.
+       Правая: фото заканчивается на уровне иконки-лого в header */
+    grid-template-columns: 1fr 44%;
+    align-items: stretch;
+    /* Правый padding = отступ header, чтобы фото не выходило за иконку */
+    padding-right: clamp(24px, 5.2vw, 100px);
+  }
+
+  /* Линия-разделитель: от левого отступа до правого отступа (уровень лого) */
+  .service-divider {
+    height: 1px;
+    background: #151515;
+    margin: 0 clamp(24px, 5.2vw, 100px);
+  }
+
+  .service-left {
+    display: flex;
+    flex-direction: column;
+    /* Центрируем текст по вертикали относительно высоты фото */
+    justify-content: center;
+    padding: clamp(32px, 3.5vw, 64px) clamp(24px, 3vw, 56px) clamp(32px, 3.5vw, 64px) clamp(24px, 5.2vw, 100px);
+  }
+
+  /* Номер + название в одной строке */
+  .service-num-name {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(12px, 1vw, 20px);
+    margin-bottom: clamp(16px, 1.5vw, 24px);
+  }
+
+  .service-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(12px, 0.9vw, 17px);
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+    /* Выравниваем с baseline заголовка */
+    align-self: baseline;
+  }
+
+  .service-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 3.1vw, 60px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--dark2);
+  }
+
+  /* Описание — отступ слева = ширина числа + gap,
+     чтобы текст начинался точно под заголовком */
+  .service-desc {
+    font-size: clamp(13px, 0.85vw, 17px);
+    line-height: 1.55;
+    color: var(--dark2);
+    opacity: .8;
+    /* Отступ слева = примерно ширина num + gap */
+    padding-left: clamp(28px, 2.2vw, 40px);
+    max-width: 52ch;
+  }
+
+  /* Фото — правая колонка */
+  .service-img-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .service-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    min-height: clamp(240px, 22vw, 420px);
+    transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+  }
+  .service-row:hover .service-img { transform: scale(1.04); }
+
+  /* ════════════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    /* Nav */
+    .nav-links, .nav-cta { display: none; }
+    .nav-toggle { display: flex; }
+    .mobile-menu { display: block; }
+
+    /* Hero stats — move inline */
+    .hero-stats {
+      position: static;
+      transform: none;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      gap: 24px;
+      margin-top: 40px;
+      padding-top: 28px;
+      border-top: 1px solid rgba(255,255,255,.15);
+      align-items: flex-start;
+    }
+    .stat-item { text-align: left; }
+    .stat-num { justify-content: flex-start; }
+    .stat-label { max-width: none; }
+
+    /* Services */
+    .service-row {
+      grid-template-columns: 1fr;
+      padding-right: 0;
+    }
+    .service-left {
+      padding: 28px 24px 20px;
+    }
+    .service-desc { padding-left: clamp(24px, 2vw, 36px); }
+    .service-divider { margin: 0 20px; }
+    .service-img-wrap { width: 100%; }
+    .service-img { min-height: 240px; max-height: 320px; }
+  }
+
+  @media (max-width: 480px) {
+    /* hero-actions stays row on all mobile sizes */
+    .services-header { padding: 0 20px; }
+    .service-row { padding: 0 20px; }
+    .service-img-wrap { margin-left: -20px; width: calc(100% + 40px); }
+  }
+
+  /* ════════════════════════════════════════
+     PORTFOLIO
+  ════════════════════════════════════════ */
+  .portfolio-section {
+    width: 100%;
+    background: #F8F5F1;
+    padding: clamp(60px, 8vw, 140px) 0 clamp(60px, 6vw, 100px);
+  }
+
+  .portfolio-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(32px, 3.5vw, 64px);
+  }
+
+  .portfolio-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 4.7vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+  }
+
+  .portfolio-sub {
+    font-size: clamp(13px, 0.85vw, 16px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: #151515;
+    text-align: right;
+    max-width: 280px;
+    opacity: .8;
+    align-self: center;
+  }
+
+  /* Grid: 4 cols × 2 rows */
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: clamp(6px, 0.5vw, 9px);
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(40px, 4vw, 72px);
+  }
+
+  .portfolio-item {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    aspect-ratio: 422 / 536;
+    background: #ccc;
+  }
+
+  .portfolio-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+  }
+  .portfolio-item:hover img { transform: scale(1.04); }
+
+  /* Before/after label */
+  .pf-label {
+    position: absolute;
+    bottom: clamp(12px, 1.2vw, 20px);
+    left: clamp(12px, 1.2vw, 20px);
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(14px, 1vw, 18px);
+    font-style: italic;
+    color: #fff;
+    pointer-events: none;
+    text-shadow: 0 1px 4px rgba(0,0,0,.4);
+  }
+
+  /* Hover overlay */
+  .pf-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(21,21,21,.25);
+    opacity: 0;
+    transition: opacity .3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .portfolio-item:hover .pf-overlay { opacity: 1; }
+  .pf-zoom {
+    width: clamp(36px, 2.5vw, 48px);
+    height: clamp(36px, 2.5vw, 48px);
+    border: 1.5px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .pf-zoom svg { width: 18px; height: 18px; stroke: #fff; fill: none; }
+
+  /* Instagram button */
+  .portfolio-footer {
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(8px, 0.6vw, 12px);
+    padding: 0 clamp(24px, 2vw, 40px);
+    height: clamp(48px, 3.5vw, 62px);
+    border-radius: 4px;
+    background: var(--gold);
+    font-size: clamp(14px, 0.9vw, 17px);
+    font-weight: 500;
+    color: #151515;
+    text-decoration: none;
+    transition: background .25s;
+    white-space: nowrap;
+  }
+  .btn-instagram:hover { background: #e8c050; }
+  .btn-instagram img {
+    width: clamp(14px, 0.9vw, 16px);
+    height: clamp(14px, 0.9vw, 16px);
+    flex-shrink: 0;
+  }
+
+  /* ─── LIGHTBOX ─── */
+  .lightbox {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: rgba(0,0,0,.92);
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+  }
+  .lightbox.active { visibility: visible; }
+
+  .lightbox-inner {
+    position: relative;
+    max-width: 90vw;
+    max-height: 90vh;
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 2vw, 32px);
+  }
+
+  .lightbox-img {
+    max-width: 80vw;
+    max-height: 88vh;
+    object-fit: contain;
+    display: block;
+    border-radius: 2px;
+  }
+
+  .lightbox-close {
+    position: fixed;
+    top: clamp(16px, 2vw, 32px);
+    right: clamp(16px, 2vw, 32px);
+    width: 44px; height: 44px;
+    background: none;
+    border: 1.5px solid rgba(255,255,255,.4);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    transition: border-color .2s;
+    z-index: 1000;
+  }
+  .lightbox-close:hover { border-color: #fff; }
+
+  .lightbox-arrow {
+    background: none;
+    border: 1.5px solid rgba(255,255,255,.35);
+    border-radius: 50%;
+    width: clamp(40px, 3vw, 56px);
+    height: clamp(40px, 3vw, 56px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: border-color .2s;
+  }
+  .lightbox-arrow:hover { border-color: #fff; }
+  .lightbox-arrow svg { width: 20px; height: 20px; stroke: #fff; fill: none; stroke-width: 1.5; }
+
+  .lightbox-counter {
+    position: fixed;
+    bottom: clamp(16px, 2vw, 28px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 14px;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .06em;
+  }
+
+  /* ─── PORTFOLIO RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-header { flex-direction: column; gap: 12px; }
+    .portfolio-sub { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .portfolio-header { padding: 0 20px; }
+    .portfolio-grid { padding: 0 20px; gap: 4px; }
+    .lightbox-inner { gap: 8px; }
+    .lightbox-img { max-width: 92vw; }
+  }
+
+
+  /* ════════════════════════════════════════
+     ABOUT / ONE TEAM
+  ════════════════════════════════════════ */
+  .about-section {
+    position: relative;
+    width: 100%;
+    min-height: clamp(480px, 40vw, 680px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  /* Background image */
+  .about-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .about-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Dark overlay */
+  .about-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(21,21,21,.62);
+  }
+
+  /* Content grid */
+  .about-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(32px, 4vw, 80px);
+    align-items: center;
+    padding: clamp(60px, 8vw, 130px) clamp(24px, 5.2vw, 100px);
+  }
+
+  /* Left — headline */
+  .about-headline {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(42px, 5.5vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+  .about-headline .gold  { color: var(--gold); }
+  .about-headline .white { color: #fff; }
+
+  /* Right — text + Julia */
+  .about-right {}
+
+  .about-text {
+    font-size: clamp(14px, 1.05vw, 20px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: #fff;
+    margin-bottom: clamp(20px, 2vw, 32px);
+  }
+  .about-text p + p { margin-top: clamp(12px, 1.5vw, 24px); }
+
+  /* Julia row */
+  .about-julia {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.2vw, 20px);
+    margin-top: clamp(28px, 3vw, 48px);
+  }
+
+  /* Play button */
+  .play-btn {
+    width: clamp(72px, 5vw, 91px);
+    height: clamp(72px, 5vw, 91px);
+    border-radius: 50%;
+    background: var(--gold);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform .25s, background .25s;
+  }
+  .play-btn:hover { transform: scale(1.07); background: #e8c050; }
+  .play-btn svg {
+    width: clamp(18px, 1.4vw, 24px);
+    height: clamp(18px, 1.4vw, 24px);
+    fill: #151515;
+    margin-left: 3px;
+  }
+  .play-icon-svg {
+    width: clamp(18px, 1.4vw, 24px);
+    height: clamp(18px, 1.4vw, 24px);
+    object-fit: contain;
+  }
+
+  /* Julia avatar */
+  .julia-avatar {
+    width: clamp(72px, 5vw, 91px);
+    height: clamp(72px, 5vw, 91px);
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+    background: #555;
+  }
+
+  /* Julia name */
+  .julia-name {
+    font-size: clamp(14px, 0.95vw, 17px);
+    font-weight: 500;
+    color: #fff;
+  }
+
+  /* ─── VIDEO POPUP ─── */
+  .video-popup {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 998;
+    background: rgba(0,0,0,.88);
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+  }
+  .video-popup.active { visibility: visible; }
+
+  .video-popup-inner {
+    position: relative;
+    /* 9:16 вертикальный формат — ограничиваем по высоте */
+    height: min(90vh, 860px);
+    width: calc(min(90vh, 860px) * 9 / 16);
+    aspect-ratio: 9/16;
+    background: #000;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .video-popup-inner {
+      height: min(85vh, 700px);
+      width: calc(min(85vh, 700px) * 9 / 16);
+    }
+  }
+
+  .video-popup-inner video {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  .video-close {
+    position: absolute;
+    top: -48px;
+    right: 0;
+    width: 40px; height: 40px;
+    background: none;
+    border: 1.5px solid rgba(255,255,255,.4);
+    border-radius: 50%;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: border-color .2s;
+  }
+  .video-close:hover { border-color: #fff; }
+
+  /* ─── ABOUT RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .about-headline { font-size: clamp(40px, 8vw, 72px); }
+  }
+  @media (max-width: 480px) {
+    .about-julia { flex-wrap: wrap; }
+  }
+
+
+  /* ════════════════════════════════════════
+     PRICING
+  ════════════════════════════════════════ */
+  .pricing-section {
+    width: 100%;
+    background: var(--white);
+    padding: clamp(60px, 8vw, 140px) 0 clamp(60px, 8vw, 140px);
+  }
+
+  .pricing-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(36px, 4vw, 72px);
+  }
+
+  .pricing-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 4.7vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+  }
+
+  .pricing-note {
+    font-size: clamp(13px, 0.85vw, 16px);
+    color: #151515;
+    text-align: right;
+    max-width: 280px;
+    line-height: 1.4;
+    opacity: .7;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* 2×2 grid */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(28px, 3vw, 56px) clamp(20px, 2vw, 40px);
+    padding: 0 clamp(24px, 5.2vw, 100px);
+  }
+
+  .pricing-card {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Image with hover zoom */
+  .pricing-img-wrap {
+    overflow: hidden;
+    aspect-ratio: 850 / 335;
+    background: #D9D9D9;
+    margin-bottom: clamp(16px, 1.8vw, 28px);
+  }
+
+  .pricing-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .5s cubic-bezier(.25,.46,.45,.94);
+  }
+  .pricing-card:hover .pricing-img { transform: scale(1.04); }
+
+  .pricing-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 2.8vw, 52px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+    margin-bottom: clamp(6px, 0.5vw, 10px);
+  }
+
+  .pricing-price {
+    font-size: clamp(14px, 0.9vw, 16px);
+    font-weight: 500;
+    color: #151515;
+    margin-bottom: clamp(10px, 1vw, 16px);
+  }
+
+  .pricing-desc {
+    font-size: clamp(13px, 0.85vw, 16px);
+    line-height: 1.5;
+    color: #151515;
+    opacity: .75;
+    margin-bottom: clamp(20px, 2vw, 32px);
+    max-width: 52ch;
+    flex: 1;
+  }
+
+  .btn-estimate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(160px, 12vw, 202px);
+    height: clamp(48px, 3.5vw, 60px);
+    border-radius: 4px;
+    background: var(--gold);
+    font-size: clamp(14px, 0.9vw, 16px);
+    font-weight: 500;
+    color: #1D1D1D;
+    border: none;
+    cursor: pointer;
+    transition: background .25s, transform .2s;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .btn-estimate:hover { background: #e8c050; transform: translateY(-1px); }
+
+  /* ─── ESTIMATE POPUP ─── */
+  .estimate-popup {
+    display: flex;
+    position: fixed;
+    inset: 0;
+    z-index: 997;
+    background: rgba(0,0,0,.6);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    visibility: hidden;
+  }
+  .estimate-popup.active { visibility: visible; }
+
+  .estimate-popup-inner {
+    background: var(--white);
+    width: min(560px, 100%);
+    padding: clamp(32px, 4vw, 56px);
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .estimate-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #151515;
+    opacity: .5;
+    transition: opacity .2s;
+    line-height: 1;
+  }
+  .estimate-close:hover { opacity: 1; }
+
+  .estimate-popup-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 2.5vw, 40px);
+    font-weight: 400;
+    color: #151515;
+    margin-bottom: 8px;
+  }
+  .estimate-service-name {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 32px;
+  }
+
+  /* Placeholder content — будет заменено финальной формой */
+  .estimate-placeholder {
+    background: #F8F5F1;
+    border-radius: 4px;
+    padding: 40px;
+    text-align: center;
+    color: #888;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ─── PRICING RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .pricing-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pricing-header { flex-direction: column; gap: 12px; }
+    .pricing-note { text-align: left; }
+  }
+  @media (max-width: 480px) {
+    .pricing-header { padding: 0 20px; }
+    .pricing-grid { padding: 0 20px; }
+  }
+
+
+  /* ════════════════════════════════════════
+     BANNER — BUILT TO LIVE IN
+  ════════════════════════════════════════ */
+  .banner-section {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    min-height: clamp(320px, 35vw, 680px);
+    overflow: hidden;
+  }
+
+  .banner-bg {
+    position: absolute;
+    inset: 0;
+  }
+  .banner-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  /* Subtle dark overlay for text legibility */
+  .banner-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(21,21,21,.35);
+  }
+
+  .banner-inner {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    padding: clamp(24px, 5.5vw, 107px) clamp(24px, 5.2vw, 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* Logo — top left */
+  .banner-logo {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1vw, 20px);
+  }
+
+  .banner-logo-icon {
+    height: clamp(40px, 3.5vw, 67px);
+    width: auto;
+    flex-shrink: 0;
+  }
+  .banner-logo-svg {
+    height: clamp(40px, 3.5vw, 67px);
+    width: auto;
+  }
+
+  .banner-logo-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .banner-logo-top {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(8px, 0.73vw, 14px);
+    font-weight: 600;
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.3;
+  }
+
+  .banner-logo-bottom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(16px, 1.6vw, 30px);
+    font-weight: 500;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+    color: #fff;
+    line-height: 1.2;
+  }
+
+  /* Headline — bottom left */
+  .banner-headline {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5.2vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+  }
+  .banner-headline .white { color: #fff; }
+  .banner-headline .gold  { color: var(--gold); }
+
+  /* ─── BANNER RESPONSIVE ─── */
+  @media (max-width: 600px) {
+    .banner-section {
+      aspect-ratio: auto;
+      min-height: 420px;
+    }
+    .banner-inner {
+      padding: 28px 24px 36px;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     PROCESS
+  ════════════════════════════════════════ */
+  .process-section {
+    width: 100%;
+    background: #F8F5F1;
+    padding: clamp(60px, 8vw, 140px) 0 clamp(60px, 8vw, 140px);
+  }
+
+  .process-header {
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(36px, 4vw, 72px);
+  }
+
+  .process-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 4.7vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+  }
+
+  /* 4 cards in a row */
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(8px, 1vw, 20px);
+    padding: 0 clamp(24px, 5.2vw, 100px);
+  }
+
+  .process-card {
+    background: #fff;
+    padding: clamp(24px, 2.5vw, 42px) clamp(20px, 2.2vw, 42px) clamp(28px, 3vw, 52px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: clamp(280px, 28vw, 488px);
+    transition: background .25s;
+    cursor: default;
+  }
+  .process-card:hover {
+    background: var(--gold);
+  }
+
+  /* Top row: icon left, number right */
+  .process-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .process-icon {
+    width: clamp(32px, 2.8vw, 53px);
+    height: clamp(32px, 2.8vw, 53px);
+    object-fit: contain;
+    display: block;
+    /* Icon is dark — keep as is on white, stays readable on gold too */
+  }
+
+  /* SVG icon inline fallback */
+  .process-icon-svg {
+    width: clamp(32px, 2.8vw, 53px);
+    height: clamp(32px, 2.8vw, 53px);
+    flex-shrink: 0;
+  }
+  .process-icon-svg svg {
+    width: 100%;
+    height: 100%;
+    fill: #151515;
+    transition: fill .25s;
+  }
+  .process-card:hover .process-icon-svg svg { fill: #151515; }
+  .process-icon-file {
+    width: clamp(32px, 2.8vw, 53px);
+    height: clamp(32px, 2.8vw, 53px);
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .process-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(18px, 1.6vw, 30px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: var(--gold);
+    transition: color .25s;
+    flex-shrink: 0;
+  }
+  /* On hover: gold bg → number becomes white */
+  .process-card:hover .process-num { color: #fff; }
+
+  /* Bottom: name + desc */
+  .process-card-bottom {}
+
+  .process-name {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 3.1vw, 60px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+    margin-bottom: clamp(10px, 1vw, 18px);
+    transition: color .25s;
+  }
+
+  .process-desc {
+    font-size: clamp(13px, 0.9vw, 17px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: #151515;
+    opacity: .8;
+    max-width: 30ch;
+    transition: opacity .25s;
+  }
+  .process-card:hover .process-desc { opacity: 1; }
+
+  /* ─── PROCESS RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .process-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .process-grid {
+      grid-template-columns: 1fr;
+      padding: 0 20px;
+    }
+    .process-header { padding: 0 20px; }
+    .process-card { min-height: 200px; }
+  }
+
+
+  /* ════════════════════════════════════════
+     REVIEWS
+  ════════════════════════════════════════ */
+  .reviews-section {
+    width: 100%;
+    background: #fff;
+    padding: clamp(60px, 8vw, 140px) 0 clamp(60px, 8vw, 120px);
+    overflow: hidden;
+  }
+
+  .reviews-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    margin-bottom: clamp(36px, 4vw, 64px);
+  }
+
+  .reviews-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 4.7vw, 90px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #151515;
+  }
+
+  .reviews-rating {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 0.8vw, 16px);
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  .reviews-rating-text {
+    font-size: clamp(12px, 0.85vw, 16px);
+    color: #151515;
+    text-align: right;
+    line-height: 1.4;
+    max-width: 200px;
+    opacity: .8;
+  }
+
+  .reviews-rating-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(40px, 3.5vw, 60px);
+    font-weight: 400;
+    color: #151515;
+    line-height: 1;
+  }
+
+  .reviews-rating-star {
+    color: var(--gold);
+    font-size: clamp(16px, 1.2vw, 20px);
+    line-height: 1;
+    margin-top: -4px;
+  }
+
+  /* Carousel wrapper — clips overflow */
+  .reviews-carousel-outer {
+    padding-left: clamp(24px, 5.2vw, 100px);
+    overflow: hidden;
+  }
+
+  .reviews-track {
+    display: flex;
+    gap: clamp(12px, 1.5vw, 20px);
+    transition: transform .45s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+  }
+
+  /* Each card — fixed width so last one peeks */
+  .review-card {
+    flex-shrink: 0;
+    width: clamp(280px, 23.4vw, 449px);
+    background: #F8F5F1;
+    padding: clamp(24px, 2.5vw, 36px) clamp(20px, 2.2vw, 41px);
+    display: flex;
+    flex-direction: column;
+    gap: clamp(12px, 1.2vw, 20px);
+  }
+
+  /* Author row */
+  .review-author {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 1vw, 16px);
+  }
+
+  /* Avatar circle with text initials */
+  .review-avatar {
+    width: clamp(48px, 3.3vw, 63px);
+    height: clamp(48px, 3.3vw, 63px);
+    border-radius: 50%;
+    background: #E8DAD0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(16px, 1.4vw, 26px);
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: .02em;
+  }
+
+  .review-author-info {}
+  .review-name {
+    font-size: clamp(13px, 0.8vw, 15px);
+    font-weight: 500;
+    color: #151515;
+    line-height: 1.4;
+  }
+  .review-meta {
+    font-size: clamp(11px, 0.65vw, 12px);
+    color: #151515;
+    opacity: .6;
+    margin-top: 2px;
+  }
+  .review-stars {
+    color: var(--gold);
+    font-size: clamp(11px, 0.7vw, 13px);
+    margin-top: 4px;
+    letter-spacing: 1px;
+  }
+
+  .review-text {
+    font-size: clamp(13px, 0.9vw, 17px);
+    font-weight: 400;
+    line-height: 1.5;
+    color: #151515;
+    opacity: .85;
+  }
+
+  /* Bottom row: button + arrows */
+  .reviews-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(28px, 3vw, 48px) clamp(24px, 5.2vw, 100px) 0;
+  }
+
+  .btn-thumbtack {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 clamp(20px, 2vw, 32px);
+    height: clamp(48px, 3.5vw, 60px);
+    border-radius: 4px;
+    background: var(--gold);
+    font-size: clamp(13px, 0.85vw, 16px);
+    font-weight: 500;
+    color: #1D1D1D;
+    text-decoration: none;
+    transition: background .25s;
+    white-space: nowrap;
+  }
+  .btn-thumbtack:hover { background: #e8c050; }
+
+  .reviews-arrows {
+    display: flex;
+    gap: clamp(6px, 0.5vw, 10px);
+  }
+
+  .reviews-arrow {
+    width: clamp(40px, 2.8vw, 52px);
+    height: clamp(40px, 2.8vw, 52px);
+    border-radius: 5px;
+    background: #F8F5F1;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .2s;
+  }
+  .reviews-arrow:hover { background: var(--gold); }
+  .reviews-arrow:hover svg { stroke: #151515; }
+  .reviews-arrow svg {
+    width: clamp(8px, 0.6vw, 10px);
+    height: clamp(16px, 1vw, 18px);
+    stroke: #151515;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ─── REVIEWS RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .reviews-header { flex-direction: column; gap: 16px; }
+    .reviews-rating-text { text-align: left; }
+    .reviews-rating { align-self: flex-start; }
+  }
+  @media (max-width: 480px) {
+    .reviews-carousel-outer { padding-left: 20px; }
+    .reviews-footer { padding-left: 20px; padding-right: 20px; flex-wrap: wrap; gap: 16px; }
+    .review-card { width: calc(100vw - 56px); }
+  }
+
+
+  /* ════════════════════════════════════════
+     CONTACT
+  ════════════════════════════════════════ */
+  .contact-section {
+    position: relative;
+    width: 100%;
+    min-height: clamp(600px, 55vw, 964px);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Background */
+  .contact-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .contact-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .contact-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(23,23,23,.55);
+  }
+
+  /* Inner layout */
+  .contact-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(32px, 4vw, 80px);
+    align-items: center;
+    padding: clamp(60px, 7vw, 120px) clamp(24px, 5.2vw, 100px);
+  }
+
+  /* Left — text */
+  .contact-left {}
+
+  .contact-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(48px, 5.8vw, 100px);
+    font-weight: 400;
+    line-height: 1.08;
+    color: #fff;
+    margin-bottom: clamp(12px, 1.2vw, 20px);
+  }
+
+  .contact-sub {
+    font-size: clamp(14px, 1.05vw, 20px);
+    color: #fff;
+    line-height: 1.4;
+    margin-bottom: clamp(24px, 2.5vw, 40px);
+    opacity: .85;
+  }
+
+  /* email + socials row */
+  .contact-email-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(16px, 1.8vw, 28px);
+    margin-bottom: clamp(16px, 1.8vw, 28px);
+    flex-wrap: wrap;
+  }
+  .contact-email {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(22px, 2.8vw, 50px);
+    color: #fff;
+    text-decoration: none;
+    transition: opacity .2s;
+    line-height: 1;
+  }
+  .contact-email:hover { opacity: .75; }
+
+  .contact-socials {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .contact-social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s;
+  }
+  .contact-social-link:hover { opacity: .7; }
+  .contact-social-link img {
+    width: clamp(28px, 2.2vw, 40px);
+    height: clamp(28px, 2.2vw, 40px);
+    object-fit: contain;
+  }
+
+  /* Right — form with liquid glass effect */
+  .contact-form-wrap {
+    width: clamp(320px, 28vw, 480px);
+    flex-shrink: 0;
+
+    /* Liquid glass effect */
+    background: rgba(217, 217, 217, 0.18);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 8px;
+    padding: clamp(28px, 3vw, 48px) clamp(24px, 2.5vw, 40px);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,.18),
+      inset 0 1px 0 rgba(255,255,255,.25),
+      inset 0 -1px 0 rgba(255,255,255,.08);
+  }
+
+  /* Field groups */
+  .form-field {
+    margin-bottom: clamp(14px, 1.4vw, 20px);
+  }
+
+  .form-field label {
+    display: block;
+    font-size: clamp(11px, 0.65vw, 12px);
+    font-weight: 400;
+    color: #fff;
+    margin-bottom: 6px;
+    opacity: .9;
+  }
+
+  .form-field input,
+  .form-field textarea {
+    width: 100%;
+    border-radius: 4px;
+    border: none;
+    background: #fff;
+    padding: clamp(14px, 1.2vw, 20px) clamp(16px, 1.4vw, 27px);
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 0.85vw, 16px);
+    font-weight: 400;
+    color: #000;
+    outline: none;
+    transition: box-shadow .2s;
+    appearance: none;
+  }
+  .form-field input::placeholder,
+  .form-field textarea::placeholder { color: rgba(0,0,0,.35); }
+  .form-field input:focus,
+  .form-field textarea:focus {
+    box-shadow: 0 0 0 2px rgba(254,212,97,.6);
+  }
+
+  .form-field textarea {
+    resize: vertical;
+    min-height: clamp(80px, 7vw, 120px);
+  }
+
+  .btn-send {
+    width: 100%;
+    height: clamp(48px, 3.5vw, 60px);
+    border-radius: 4px;
+    background: var(--gold);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 0.9vw, 16px);
+    font-weight: 500;
+    color: #1D1D1D;
+    cursor: pointer;
+    transition: background .25s, transform .2s;
+    margin-top: 0;
+  }
+  .btn-send:hover { background: #e8c050; transform: translateY(-1px); }
+  .btn-send:disabled { opacity: .6; cursor: not-allowed; transform: none; }
+
+  /* Success / error messages */
+  .form-message {
+    display: none;
+    margin-top: 12px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    text-align: center;
+  }
+  .form-message.success {
+    display: block;
+    background: rgba(255,255,255,.15);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,.3);
+  }
+  .form-message.error {
+    display: block;
+    background: rgba(220,50,50,.15);
+    color: #ffcccc;
+    border: 1px solid rgba(220,50,50,.3);
+  }
+
+  /* ─── CONTACT RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .contact-inner {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    .contact-form-wrap {
+      width: 100%;
+      max-width: 560px;
+    }
+  }
+  @media (max-width: 480px) {
+    .contact-inner { padding: 60px 20px; }
+  }
+
+
+  /* ════════════════════════════════════════
+     FOOTER
+  ════════════════════════════════════════ */
+  .site-footer {
+    width: 100%;
+    background: #fff;
+    border-top: 1px solid #EBEBEB;
+    padding: 0 clamp(24px, 5.2vw, 100px);
+    height: clamp(80px, 12vw, 223px);
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-inner {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: clamp(16px, 2vw, 32px);
+  }
+
+  /* Logo */
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: clamp(8px, 0.8vw, 16px);
+    text-decoration: none;
+    flex-shrink: 0;
+  }
+
+  .footer-logo-icon {
+    height: clamp(32px, 2.8vw, 53px);
+    width: auto;
+  }
+
+  .footer-logo-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .footer-logo-top {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(7px, 0.58vw, 11px);
+    font-weight: 600;
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    color: #151515;
+    line-height: 1.2;
+  }
+
+  .footer-logo-bottom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 1.25vw, 24px);
+    font-weight: 500;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+    color: #151515;
+    line-height: 1.2;
+  }
+
+  /* Copyright */
+  .footer-copy {
+    font-size: clamp(11px, 0.68vw, 13px);
+    font-weight: 400;
+    color: #151515;
+    line-height: 1.5;
+    text-align: center;
+    opacity: .7;
+  }
+
+  /* Dev credit */
+  .footer-dev {
+    font-size: clamp(11px, 0.68vw, 13px);
+    font-weight: 400;
+    color: #151515;
+    line-height: 1.5;
+    text-align: right;
+    opacity: .7;
+    flex-shrink: 0;
+  }
+  .footer-logo-svg {
+    height: clamp(32px, 2.8vw, 53px);
+    width: auto;
+  }
+
+  /* ─── FOOTER RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .site-footer {
+      height: auto;
+      padding: 32px 24px;
+    }
+    .footer-inner {
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      text-align: center;
+    }
+    .footer-copy,
+    .footer-dev { text-align: center; }
+  }
+  @media (max-width: 480px) {
+    .site-footer { padding: 28px 20px; }
+  }
+
+
+  /* ════════════════════════════════════════
+     PARALLAX
+  ════════════════════════════════════════ */
+  .parallax-bg {
+    will-change: transform;
+    transition: transform 0s linear;
+  }
+
+
+  /* ── POPUP FADE ANIMATIONS ── */
+  .lightbox,
+  .video-popup,
+  .estimate-popup {
+    opacity: 0;
+    transition: opacity .35s ease;
+    pointer-events: none;
+  }
+  .lightbox.active,
+  .video-popup.active,
+  .estimate-popup.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  /* Inner scale-up on open */
+  .lightbox-inner,
+  .video-popup-inner,
+  .estimate-popup-inner {
+    transform: scale(.96);
+    transition: transform .35s cubic-bezier(.34,1.3,.64,1);
+  }
+  .lightbox.active .lightbox-inner,
+  .video-popup.active .video-popup-inner,
+  .estimate-popup.active .estimate-popup-inner {
+    transform: scale(1);
+  }
+
+
+  /* ════════════════════════════════════════
+     PRELOADER
+  ════════════════════════════════════════ */
+  #preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .6s ease, visibility .6s ease;
+  }
+  #preloader.hiding {
+    animation: circleUp 0.85s cubic-bezier(.4,0,.2,1) forwards;
+    pointer-events: none;
+  }
+  #preloader.hidden {
+    display: none;
+  }
+
+  @keyframes circleUp {
+    0%   {
+      clip-path: circle(150% at 50% 120%);
+      opacity: 1;
+    }
+    100% {
+      clip-path: circle(0% at 50% -10%);
+      opacity: 1;
+    }
+  }
+
+  /* SVG logo — reveal animation using clip from bottom */
+  .preloader-logo {
+    width: clamp(100px, 13vw, 180px);
+    height: auto;
+    overflow: visible;
+  }
+
+  /* Each path fades + rises in */
+  .logo-path {
+    fill: #FED461;
+    opacity: 0;
+    transform: translateY(8px);
+    animation: revealPath 0.7s cubic-bezier(.22,1,.36,1) forwards;
+  }
+  .logo-path:nth-child(1) { animation-delay: 0s; }
+  .logo-path:nth-child(2) { animation-delay: 0.35s; }
+  .logo-path:nth-child(3) { animation-delay: 0.65s; }
+
+  @keyframes revealPath {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .preloader-logo-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Logo name text under icon */
+  .preloader-name {
+    margin-top: clamp(20px, 2.5vw, 36px);
+    text-align: center;
+    opacity: 0;
+    animation: fadeInName .6s ease .8s forwards;
+  }
+  @keyframes fadeInName {
+    to { opacity: 1; }
+  }
+
+  .preloader-name-top {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(8px, .7vw, 13px);
+    font-weight: 600;
+    letter-spacing: .55em;
+    text-transform: uppercase;
+    color: #fff;
+    display: block;
+  }
+  .preloader-name-bottom {
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(18px, 1.8vw, 30px);
+    font-weight: 500;
+    letter-spacing: -.01em;
+    text-transform: uppercase;
+    color: #fff;
+    display: block;
+    margin-top: 4px;
+  }
+
+  /* Counter */
+  .preloader-counter {
+    position: absolute;
+    bottom: clamp(32px, 4vw, 64px);
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 3vw, 52px);
+    font-weight: 400;
+    color: rgba(255,255,255,.5);
+    letter-spacing: .02em;
+    width: 80px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Prevent scroll while preloader is active */
+  body.loading {
+    overflow: hidden;
+  }
+
+
+  /* ════════════════════════════════════════
+     HERO — MOBILE (≤768px)
+     Точно 100dvh, всё внутри одного экрана
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* Hero = ровно один экран */
+    .hero {
+      min-height: 100dvh;
+      height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Фон — видео на весь блок */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+    }
+    .hero-bg-dark,
+    .hero-video,
+    .hero-bg img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(21,21,21,.60);
+      z-index: 1;
+    }
+
+    /* Контентная область — flex-column на всю высоту */
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      /* Распределяем: геолейбл+заголовок+кнопки прижаты к низу,
+         статы — у самого дна */
+      justify-content: flex-end;
+      height: 100%;
+      padding: 0 18px 0;
+    }
+
+    /* Геолейбл */
+    .hero-location {
+      font-size: 12px;
+      color: #fff;
+      margin-bottom: 12px;
+      letter-spacing: .01em;
+    }
+
+    /* Заголовок — 3 строки как в макете */
+    .hero-title {
+      font-size: 39px;
+      line-height: 1.08;
+      margin-bottom: 20px;
+      max-width: 100%;
+      white-space: normal;
+    }
+    .hero-line {
+      display: block;
+      white-space: normal;
+    }
+
+    /* Кнопки — строго в ряд, половина экрана каждая */
+    .hero-actions {
+      display: flex;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      gap: 8px;
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    .btn-primary {
+      flex: 1 1 0;
+      min-width: 0;
+      height: 41px !important;
+      font-size: 11px !important;
+      font-weight: 500;
+      padding: 0 8px !important;
+      border-radius: 3px !important;
+      white-space: nowrap;
+      justify-content: center;
+      width: auto !important;
+    }
+
+    .btn-outline {
+      flex: 1 1 0;
+      min-width: 0;
+      height: 41px !important;
+      font-size: 11px !important;
+      font-weight: 500;
+      padding: 0 8px !important;
+      border-radius: 3px !important;
+      white-space: nowrap;
+      justify-content: center;
+      width: auto !important;
+    }
+
+    .btn-outline-icon {
+      width: 10px !important;
+      height: 10px !important;
+    }
+
+    /* Статы — горизонтально в ряд у самого дна */
+    .hero-stats {
+      position: static !important;
+      transform: none !important;
+      flex-direction: row !important;
+      justify-content: space-between !important;
+      align-items: flex-start !important;
+      flex-wrap: nowrap !important;
+      gap: 0 !important;
+      padding-top: 16px;
+      padding-bottom: 20px;
+      border-top: 1px solid rgba(255,255,255,.15);
+      margin-top: 16px;
+      width: 100%;
+    }
+
+    .stat-item {
+      text-align: left !important;
+      flex: 1;
+    }
+
+    .stat-num {
+      font-size: 35px !important;
+      line-height: 1.08;
+      color: #fff;
+      display: flex !important;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      gap: 2px;
+    }
+    .stat-star svg {
+      width: 12px !important;
+      height: 12px !important;
+    }
+
+    .stat-label {
+      font-size: 9px !important;
+      line-height: 1.4;
+      margin-top: 4px;
+      max-width: 62px;
+      opacity: .8;
+    }
+
+    /* Subtitle — скрываем на мобайле (не влезает) */
+    .hero-subtitle { display: none; }
+
+    /* Десктопные статы не показываем отдельно —
+       на мобайле они всегда внутри .hero-content через JS */
+  }
+
+  /* Fallback для браузеров без dvh */
+  @supports not (height: 100dvh) {
+    @media (max-width: 768px) {
+      .hero { height: 100vh; min-height: 100vh; }
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     МОБИЛЬНЫЕ ПРАВКИ ПО БЛОКАМ (≤768px)
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── БЛОК 2: Full-Service STR Design ── */
+
+    /* 1. Лого на уровне заголовка, по правому краю заголовка */
+    .services-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0 20px;
+      margin-bottom: clamp(20px, 4vw, 32px);
+    }
+    .services-title {
+      font-size: clamp(28px, 8vw, 42px);
+      flex: 1;
+    }
+    .services-icon {
+      width: 44px;
+      height: 44px;
+      margin-top: 4px;
+      flex-shrink: 0;
+      align-self: flex-start;
+    }
+
+    /* 2. Текстовый блок выровнен по линии — убираем лишний padding-left */
+    .service-row {
+      grid-template-columns: 1fr;
+      padding-right: 0;
+    }
+    .service-left {
+      padding: 24px 20px 20px 20px;
+      justify-content: flex-start;
+    }
+    /* Убираем padding-left у desc — текст идёт от той же точки что заголовок */
+    .service-desc {
+      padding-left: 0;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    /* Номер + название: выровнять вместе */
+    .service-num-name {
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .service-num {
+      font-size: 12px;
+      flex-shrink: 0;
+    }
+    .service-name {
+      font-size: clamp(28px, 7vw, 36px);
+    }
+
+    /* 3. Картинки с отступами по линии разделителя */
+    .service-divider {
+      margin: 0 20px;
+    }
+    .service-img-wrap {
+      width: auto;
+      margin: 0 20px;  /* отступы слева и справа */
+    }
+    .service-img {
+      width: 100%;
+      min-height: 220px;
+      max-height: 280px;
+      border-radius: 2px;
+    }
+
+    /* ── БЛОК 3: Portfolio ── */
+
+    /* 1. Подзаголовок на уровне заголовка — в одну строку */
+    .portfolio-header {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0 20px;
+      gap: 16px;
+      margin-bottom: clamp(24px, 4vw, 40px);
+    }
+    .portfolio-title {
+      font-size: clamp(32px, 9vw, 48px);
+      flex-shrink: 0;
+    }
+    .portfolio-sub {
+      font-size: 13px;
+      text-align: left;
+      align-self: flex-start;
+      margin-top: 8px; /* небольшой сдвиг чтобы совпал с серединой заголовка */
+      max-width: 160px;
+      opacity: .75;
+    }
+    .portfolio-grid {
+      padding: 0 20px;
+      gap: 6px;
+    }
+
+    /* ── БЛОК Pricing: Investment. Services & Prices ── */
+
+    /* 1. Подзаголовок рядом с заголовком */
+    .pricing-header {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 0 20px;
+      gap: 16px;
+      flex-wrap: nowrap;
+    }
+    .pricing-title {
+      font-size: clamp(24px, 6.5vw, 36px);
+      flex: 1;
+      min-width: 0;
+    }
+    .pricing-note {
+      font-size: 12px;
+      text-align: left;
+      align-self: flex-start;
+      margin-top: 8px;
+      max-width: 120px;
+      flex-shrink: 0;
+      opacity: .7;
+    }
+    .pricing-grid {
+      padding: 0 20px;
+    }
+    .pricing-img-wrap {
+      margin: 0;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     МОБИЛЬНЫЕ ПРАВКИ v2 (≤768px)
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* ── БЛОК 1: Hero — убрать серую линию над статами ── */
+    .hero-stats {
+      border-top: none !important;
+    }
+
+    /* ── БЛОК 2: Services — симметричные отступы текст+картинка ── */
+    .service-left {
+      padding: 24px 20px 20px 20px !important;
+    }
+    .service-img-wrap {
+      margin: 0 20px !important;
+      width: calc(100% - 40px) !important;
+    }
+    .service-img {
+      width: 100% !important;
+      border-radius: 2px;
+    }
+    /* Разделитель совпадает с отступами */
+    .service-divider {
+      margin: 0 20px !important;
+    }
+
+    /* ── БЛОК Portfolio — подзаголовок ПОД заголовком ── */
+    .portfolio-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      padding: 0 20px !important;
+    }
+    .portfolio-sub {
+      font-size: 14px !important;
+      text-align: left !important;
+      max-width: 100% !important;
+      margin-top: 0 !important;
+      opacity: .75;
+    }
+    .portfolio-title {
+      font-size: clamp(36px, 10vw, 52px) !important;
+    }
+
+    /* ── БЛОК Pricing — подзаголовок ПОД заголовком ── */
+    .pricing-header {
+      flex-direction: column !important;
+      align-items: flex-start !important;
+      gap: 8px !important;
+      padding: 0 20px !important;
+    }
+    .pricing-note {
+      font-size: 13px !important;
+      text-align: left !important;
+      max-width: 100% !important;
+      margin-top: 0 !important;
+      opacity: .7;
+    }
+    .pricing-title {
+      font-size: clamp(24px, 7vw, 36px) !important;
+    }
+    .pricing-grid {
+      padding: 0 20px !important;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     БЛОК 2 MOBILE — ФИНАЛЬНАЯ ВЕРСИЯ (≤768px)
+     Точно по PDF-макету
+  ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+
+    /* Секция */
+    .services-section {
+      padding-top: clamp(40px, 6vw, 72px);
+    }
+
+    /* Хедер: заголовок + лого */
+    .services-header {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: flex-start !important;
+      justify-content: space-between !important;
+      padding: 0 20px !important;
+      margin-bottom: clamp(16px, 3vw, 24px) !important;
+      gap: 12px !important;
+    }
+    .services-title {
+      font-size: clamp(30px, 8vw, 44px) !important;
+      line-height: 1.08 !important;
+      flex: 1 !important;
+    }
+    .services-icon {
+      width: 48px !important;
+      height: 48px !important;
+      flex-shrink: 0 !important;
+      align-self: center !important;
+      margin-top: 0 !important;
+      object-fit: contain !important;
+    }
+
+    /* Разделитель — на всю ширину контента (с отступами) */
+    .service-divider {
+      margin: 0 20px !important;
+      background: #151515 !important;
+    }
+
+    /* Строка сервиса — вертикально */
+    .service-row {
+      display: block !important;
+      padding: 0 !important;
+      padding-right: 0 !important;
+      border: none !important;
+    }
+
+    /* Левый блок: номер + название + текст */
+    .service-left {
+      padding: 24px 20px 20px 20px !important;
+      display: block !important;
+    }
+
+    /* Номер + название в одну строку */
+    .service-num-name {
+      display: flex !important;
+      flex-direction: row !important;
+      align-items: baseline !important;
+      gap: 16px !important;
+      margin-bottom: 16px !important;
+    }
+    .service-num {
+      font-size: 14px !important;
+      color: var(--gold) !important;
+      flex-shrink: 0 !important;
+      font-family: 'Instrument Serif', serif !important;
+    }
+    .service-name {
+      font-size: clamp(28px, 8vw, 40px) !important;
+      line-height: 1.08 !important;
+      font-family: 'Instrument Serif', serif !important;
+      color: #151515 !important;
+    }
+
+    /* Текст — отступ слева чтобы начинался под заголовком
+       (ширина num ~20px + gap 16px = ~36px) */
+    .service-desc {
+      padding-left: 36px !important;
+      font-size: 15px !important;
+      line-height: 1.65 !important;
+      color: #151515 !important;
+      opacity: .85 !important;
+      max-width: 100% !important;
+    }
+
+    /* Фото — на всю ширину контента (с теми же отступами 20px) */
+    .service-img-wrap {
+      display: block !important;
+      width: calc(100% - 40px) !important;
+      margin: 0 20px !important;
+      overflow: hidden !important;
+    }
+    .service-img {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 200px !important;
+      max-height: 320px !important;
+      object-fit: cover !important;
+      display: block !important;
+      border-radius: 0 !important;
+    }
+  }
+
+
+  @media (max-width: 768px) {
+    .services-section {
+      padding-bottom: clamp(48px, 8vw, 80px) !important;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     ПРАВКИ: pricing-name, squiggle links, contact icons
+  ════════════════════════════════════════ */
+
+  /* 1. Pricing name margin-top на мобайле */
+  @media (max-width: 768px) {
+    .pricing-name {
+      margin-top: 10px;
+    }
+  }
+
+  /* 2. Squiggle hover effect — плавное появление */
+  .nav-links a,
+  .mobile-menu a,
+  .contact-email,
+  .contact-item-value,
+  .portfolio-link,
+  .wwd-instagram,
+  .footer-social a {
+    text-decoration: none;
+    /* Начальное состояние: прозрачная линия нулевой высоты */
+    background-image: linear-gradient(to bottom, transparent 0%, transparent 100%);
+    background-position: 0 100%;
+    background-repeat: repeat-x;
+    background-size: auto 0px;
+    /* Плавный переход opacity вместо смены картинки */
+    transition: background-size .35s ease, opacity .2s ease;
+  }
+
+  .nav-links a:hover,
+  .mobile-menu a:hover,
+  .contact-email:hover,
+  .contact-item-value:hover,
+  .portfolio-link:hover,
+  .wwd-instagram:hover,
+  .footer-social a:hover {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle%7Banimation:shift .3s linear infinite;%7D@keyframes shift %7Bfrom %7Btransform:translateX(0);%7Dto %7Btransform:translateX(-20px);%7D%7D%3C/style%3E%3Cpath fill='none' stroke='%23FED461' stroke-width='1' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+    background-position: 0 100%;
+    background-size: auto 6px;
+    background-repeat: repeat-x;
+    text-decoration: none;
+  }
+
+  /* 3. Contact social icons — аккуратный размер */
+  .contact-social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s;
+    background-image: none !important; /* не применять squiggle к иконкам */
+  }
+  .contact-social-link:hover {
+    opacity: .75;
+    background-image: none !important;
+  }
+  .contact-social-link img {
+    width: 36px !important;
+    height: 36px !important;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* Размер и положение иконок рядом с email */
+  .contact-email-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(16px, 1.8vw, 28px);
+  }
+  .contact-socials {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .contact-social-link img {
+      width: 32px !important;
+      height: 32px !important;
+    }
+    .contact-email-row {
+      flex-direction: row;
+      align-items: center;
+      gap: 14px;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     ПРАВКИ v3
+  ════════════════════════════════════════ */
+
+  /* 1. Иконки соцсетей — меньше в 1.5 раза */
+  .contact-social-link img {
+    width: 24px !important;
+    height: 24px !important;
+  }
+  @media (max-width: 768px) {
+    .contact-social-link img {
+      width: 21px !important;
+      height: 21px !important;
+    }
+  }
+
+  /* 3. Squiggle замедляем в 3 раза: .3s → .9s */
+  .nav-links a:hover,
+  .mobile-menu a:hover,
+  .contact-email:hover,
+  .contact-item-value:hover,
+  .portfolio-link:hover,
+  .wwd-instagram:hover,
+  .footer-social a:hover {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle%7Banimation:shift .9s linear infinite;%7D@keyframes shift %7Bfrom %7Btransform:translateX(0);%7Dto %7Btransform:translateX(-20px);%7D%7D%3C/style%3E%3Cpath fill='none' stroke='%23FED461' stroke-width='1' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+    background-position: 0 100%;
+    background-size: auto 6px;
+    background-repeat: repeat-x;
+    text-decoration: none;
+    transition: background-size .35s ease;
+  }
+
+  /* 4. Mobile menu — белый фон, тёмные пункты */
+  .mobile-menu {
+    background: rgba(250,248,245,.98) !important;
+    backdrop-filter: blur(16px) !important;
+  }
+  .mobile-menu a {
+    color: #151515 !important;
+    border-bottom-color: rgba(0,0,0,.08) !important;
+    font-family: 'Instrument Serif', serif !important;
+  }
+  .mobile-menu a:hover { color: var(--gold) !important; }
+  .mobile-menu a.active { color: var(--gold) !important; }
+  /* Кнопка CTA в меню — всегда тёмный текст */
+  .mobile-menu a.mobile-menu-cta,
+  .mobile-menu .mobile-menu-cta {
+    color: #151515 !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+  .mobile-menu a.mobile-menu-cta:hover,
+  .mobile-menu .mobile-menu-cta:hover {
+    color: #151515 !important;
+    background: #e8c050 !important;
+  }
+
+  /* Кнопка в mobile menu — тёмная обводка и текст */
+  .mobile-menu-cta {
+    color: #151515 !important;
+    border: 1px solid #151515 !important;
+    background: transparent !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+  .mobile-menu-cta:hover {
+    background: #151515 !important;
+    color: #fff !important;
+  }
+
+  /* Mobile nav toggle span — тёмный когда меню открыто (scrolled) */
+  nav.scrolled .nav-toggle span { background: #151515 !important; }
+
+  /* 5. Fade-in анимация для элементов при скролле */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity .75s cubic-bezier(.4,0,.2,1), transform .75s cubic-bezier(.4,0,.2,1);
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  /* Задержки для дочерних элементов */
+  .fade-in:nth-child(2) { transition-delay: .1s; }
+  .fade-in:nth-child(3) { transition-delay: .18s; }
+  .fade-in:nth-child(4) { transition-delay: .26s; }
+  .fade-in:nth-child(5) { transition-delay: .34s; }
+  .fade-in:nth-child(6) { transition-delay: .42s; }
+  /* Не анимируем прелоудер и попапы */
+  #preloader, .lightbox, .video-popup, .estimate-popup { opacity: 1 !important; transform: none !important; }
+
+
+  /* ════════════════════════════════════════
+     ПРАВКИ v4
+  ════════════════════════════════════════ */
+
+  /* 1. Цвет цифр прелоудера — белый */
+  .preloader-counter {
+    color: rgba(255,255,255,1) !important;
+  }
+
+  /* 2. Mobile menu — возвращаем тёмный фон */
+  .mobile-menu {
+    background: rgba(23,23,23,.97) !important;
+  }
+  .mobile-menu a {
+    color: var(--white) !important;
+    border-bottom-color: rgba(255,255,255,.08) !important;
+    font-family: 'Instrument Serif', serif !important;
+  }
+  .mobile-menu a:hover { color: var(--gold) !important; }
+  .mobile-menu a.active { color: var(--gold) !important; }
+  /* Кнопка CTA в меню — всегда тёмный текст */
+  .mobile-menu a.mobile-menu-cta,
+  .mobile-menu .mobile-menu-cta {
+    color: #151515 !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+  .mobile-menu a.mobile-menu-cta:hover,
+  .mobile-menu .mobile-menu-cta:hover {
+    color: #151515 !important;
+    background: #e8c050 !important;
+  }
+
+  /* Кнопка в mobile menu — жёлтый фон */
+  .mobile-menu-cta {
+    background: var(--gold) !important;
+    color: #151515 !important;
+    border: none !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    letter-spacing: .04em !important;
+    border-radius: 5px !important;
+  }
+  .mobile-menu-cta:hover {
+    background: #e8c050 !important;
+    color: #1D1D1D !important;
+  }
+
+  /* 3. Толщина волны squiggle — 1px вместо 2px */
+  /* Это меняется через inline SVG в JS — добавим отдельный вариант с stroke-width=1 */
+
+  /* 4. Nav CTA hover — жёлтая обводка */
+  nav.scrolled .nav-cta:hover {
+    background: var(--gold) !important;
+    border-color: var(--gold) !important;
+    color: #151515 !important;
+  }
+
+  /* 5. Hero btn-primary hover — белый фон */
+  .hero .btn-primary:hover {
+    background: #ffffff !important;
+    color: #151515 !important;
+    transform: translateY(-1px);
+  }
+
+  /* 6. Hero btn-outline hover — полностью жёлтый, текст тёмный */
+  .hero .btn-outline:hover {
+    background: var(--gold) !important;
+    color: #151515 !important;
+    border-color: var(--gold) !important;
+  }
+  /* Иконка в btn-outline меняется при hover через JS */
+  .btn-outline .btn-outline-icon { transition: none; }
+  .hero .btn-outline:hover .btn-outline-icon-dark { display: inline-block !important; }
+  .hero .btn-outline:hover .btn-outline-icon-light { display: none !important; }
+  .hero .btn-outline .btn-outline-icon-dark { display: none; }
+  .hero .btn-outline .btn-outline-icon-light { display: inline-block; }
+
+
+  @media (max-width: 768px) {
+    .lightbox-inner {
+      flex-direction: column;
+      gap: 16px;
+      max-width: 100vw;
+      padding: 0 12px;
+      box-sizing: border-box;
+    }
+    .lightbox-img {
+      max-width: calc(100vw - 24px);
+      max-height: 60vh;
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+    /* Стрелки — под фото в ряд */
+    .lightbox-inner {
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-arrow {
+      width: 44px;
+      height: 44px;
+      flex-shrink: 0;
+    }
+    /* Переставляем стрелки под фото через flex order */
+    .lightbox-arrow:first-child { order: 2; }
+    .lightbox-img              { order: 1; }
+    .lightbox-arrow:last-child  { order: 3; }
+
+    /* Обёртка — горизонтальный ряд стрелок под фото */
+    .lightbox-inner {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    /* Фото занимает всю строку */
+    .lightbox-img {
+      flex: 0 0 100%;
+    }
+    /* Стрелки в одну строку под фото */
+    .lightbox-arrows-row {
+      display: flex;
+      gap: 12px;
+      order: 2;
+    }
+    .lightbox-close {
+      top: 12px;
+      right: 12px;
+    }
+    .lightbox-counter {
+      bottom: 12px;
+    }
+  }
+
+
+  /* ════════════════════════════════════════
+     ПРАВКИ v5
+  ════════════════════════════════════════ */
+
+  /* 1. Lightbox desktop — вернуть оригинальный layout (стрелки по бокам фото) */
+  @media (min-width: 769px) {
+    .lightbox-inner {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: clamp(12px, 2vw, 32px) !important;
+      max-width: 90vw !important;
+      max-height: 90vh !important;
+    }
+    .lightbox-img {
+      max-width: 80vw !important;
+      max-height: 88vh !important;
+      width: auto !important;
+      height: auto !important;
+      flex: 0 1 auto !important;
+      object-fit: contain !important;
+    }
+    .lightbox-arrows-row {
+      display: contents !important; /* разворачиваем обёртку */
+    }
+    .lightbox-arrow {
+      flex-shrink: 0 !important;
+      order: unset !important;
+    }
+  }
+
+  /* 2. Process cards — плавный фон на hover */
+  .process-card {
+    transition: background .4s ease !important;
+  }
+  .process-card:hover { background: var(--gold) !important; }
+  .process-num { transition: color .4s ease !important; }
+  .process-card:hover .process-num { color: #fff !important; }
+
+  /* 3. Reviews мобайл — карточка чуть уже чтобы видно следующую */
+  @media (max-width: 768px) {
+    .reviews-carousel-outer {
+      padding-left: 20px !important;
+      overflow: hidden !important;
+    }
+    .review-card {
+      /* Карточка занимает ~85% ширины — остаток показывает следующую */
+      min-width: calc(100vw - 72px) !important;
+      max-width: calc(100vw - 72px) !important;
+      flex-shrink: 0 !important;
+    }
+    .reviews-track {
+      padding-right: 20px !important;
+    }
+  }
+
+  /* 4. Форма — подсветка незаполненных полей жёлтой рамкой */
+  .form-input.field-error,
+  .form-select.field-error,
+  .form-textarea.field-error {
+    box-shadow: 0 0 0 2px var(--gold) !important;
+    border-color: var(--gold) !important;
+    animation: fieldShake .35s ease;
+  }
+  @keyframes fieldShake {
+    0%, 100% { transform: translateX(0); }
+    20%       { transform: translateX(-4px); }
+    60%       { transform: translateX(4px); }
+  }
+
+
+  /* Lightbox layout fix */
+  .lightbox-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(12px, 2vw, 32px);
+    max-width: 92vw;
+    max-height: 92vh;
+    position: relative;
+  }
+  .lightbox-img {
+    max-width: min(78vw, 1100px);
+    max-height: 86vh;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 1;
+  }
+  .lightbox-arrow {
+    flex-shrink: 0;
+    width: clamp(40px, 2.8vw, 52px);
+    height: clamp(40px, 2.8vw, 52px);
+  }
+
+  /* Mobile: фото полная ширина, стрелки под ней */
+  @media (max-width: 768px) {
+    .lightbox-inner {
+      flex-direction: column;
+      gap: 16px;
+      max-width: 100vw;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+    .lightbox-img {
+      max-width: calc(100vw - 32px);
+      max-height: 62vh;
+      width: 100%;
+      flex-shrink: 0;
+    }
+    /* Под фото — стрелки рядом горизонтально */
+    #lightboxPrev, #lightboxNext {
+      display: inline-flex;
+    }
+    /* Обёртка стрелок горизонтально */
+    .lightbox-inner {
+      flex-wrap: wrap;
+    }
+    #lightboxPrev { order: 2; }
+    .lightbox-img  { order: 1; flex: 0 0 100%; }
+    #lightboxNext { order: 3; }
+  }
+
+
+  @media (max-width: 768px) {
+    .reviews-header {
+      display: grid !important;
+      grid-template-columns: 1fr auto !important;
+      grid-template-rows: auto auto !important;
+      align-items: start !important;
+      gap: 0 16px !important;
+      text-align: left !important;
+    }
+    /* Заголовок — слева, row 1 col 1 */
+    .reviews-header .section-label {
+      grid-column: 1 !important;
+      grid-row: 1 !important;
+    }
+    .reviews-header .section-title {
+      grid-column: 1 !important;
+      grid-row: 2 !important;
+      font-size: clamp(32px, 9vw, 48px) !important;
+    }
+    /* Рейтинг — справа, span 2 rows */
+    .reviews-meta {
+      grid-column: 2 !important;
+      grid-row: 1 / 3 !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      text-align: center !important;
+      gap: 4px !important;
+      margin-top: 0 !important;
+    }
+    .reviews-rating-text { display: none !important; }
+    .reviews-rating-num {
+      font-size: clamp(44px, 12vw, 64px) !important;
+      line-height: 1 !important;
+    }
+    .reviews-rating-star { font-size: 20px !important; }
+  }
+
+
+
+
+
+  /* ── Estimate popup — тёмный фон по макету ── */
+  .estimate-popup {
+    background: rgba(0,0,0,.75) !important;
+  }
+  .estimate-popup-inner {
+    background: #151515;
+    width: min(540px, 96vw);
+    max-height: 92vh;
+    overflow-y: auto;
+    padding: clamp(32px, 4vw, 52px) clamp(28px, 3.5vw, 44px);
+    position: relative;
+    border-radius: 4px;
+  }
+
+  /* Крестик закрытия — белый на тёмном */
+  .estimate-close {
+    color: rgba(255,255,255,.5) !important;
+    border-color: rgba(255,255,255,.2) !important;
+    background: none !important;
+  }
+  .estimate-close:hover {
+    color: #fff !important;
+    border-color: rgba(255,255,255,.5) !important;
+  }
+
+  /* Заголовок — золотой как в макете */
+  .estimate-popup-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 3.5vw, 52px);
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1.08;
+    margin-bottom: 10px;
+  }
+
+  /* Подзаголовок */
+  .estimate-popup-sub {
+    font-size: clamp(14px, 0.9vw, 16px);
+    color: rgba(255,255,255,.7);
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+
+  /* Лейблы полей */
+  .estimate-popup-inner .form-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: rgba(255,255,255,.5);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  /* Поля — белый фон, тёмный текст, скруглённые */
+  .estimate-popup-inner .form-input,
+  .estimate-popup-inner .form-textarea {
+    width: 100%;
+    background: #fff;
+    border: 1.5px solid transparent;
+    color: #151515;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+    padding: 16px 20px;
+    outline: none;
+    transition: border-color .2s;
+    border-radius: 8px;
+    appearance: none;
+  }
+  .estimate-popup-inner .form-input::placeholder,
+  .estimate-popup-inner .form-textarea::placeholder {
+    color: rgba(0,0,0,.35);
+  }
+  .estimate-popup-inner .form-input:focus,
+  .estimate-popup-inner .form-textarea:focus {
+    border-color: var(--gold);
+  }
+  .estimate-popup-inner .form-input.field-error,
+  .estimate-popup-inner .form-textarea.field-error {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 2px rgba(254,212,97,.3) !important;
+  }
+  .estimate-popup-inner .form-textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+  .estimate-popup-inner .form-group {
+    margin-bottom: 16px;
+  }
+
+  /* Кнопка отправки */
+  .estimate-popup-inner .btn-send {
+    margin-top: 4px;
+    border-radius: 6px;
+    font-size: 16px;
+    height: 58px;
+  }
+
+  /* Сообщения */
+  .estimate-popup-inner .form-message {
+    margin-top: 10px;
+    padding: 10px 14px;
+    font-size: 13px;
+    border-radius: 4px;
+    display: none;
+  }
+  .estimate-popup-inner .form-message.success {
+    display: block;
+    background: rgba(255,255,255,.08);
+    color: rgba(255,255,255,.8);
+    border: 1px solid rgba(255,255,255,.2);
+  }
+  .estimate-popup-inner .form-message.error {
+    display: block;
+    background: rgba(254,212,97,.1);
+    color: var(--gold);
+    border: 1px solid rgba(254,212,97,.3);
+  }
+
+
+  /* Contact form — унификация с estimate popup */
+  .contact-form .form-label {
+    color: rgba(255,255,255,.5);
+    font-size: 11px;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .contact-form .form-group {
+    margin-bottom: 16px;
+  }
+  .contact-form .form-input,
+  .contact-form .form-textarea {
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--white);
+    border-radius: 4px;
+  }
+  .contact-form .form-input::placeholder,
+  .contact-form .form-textarea::placeholder {
+    color: rgba(255,255,255,.25);
+  }
+  .contact-form .form-input:focus,
+  .contact-form .form-textarea:focus {
+    border-color: var(--gold);
+  }
+  .contact-form .form-input.field-error,
+  .contact-form .form-textarea.field-error {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 2px rgba(254,212,97,.25) !important;
+  }
+
+
+  /* ── Contact form — восстановление стилей после рефакторинга ── */
+  .contact-form-wrap .form-group {
+    margin-bottom: clamp(14px, 1.4vw, 20px);
+  }
+
+  .contact-form-wrap .form-label {
+    display: block;
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: rgba(255,255,255,.35);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .contact-form-wrap .form-input,
+  .contact-form-wrap .form-select,
+  .contact-form-wrap .form-textarea {
+    width: 100%;
+    background: rgba(255,255,255,.05);
+    border: 1px solid rgba(255,255,255,.1);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    padding: 13px 15px;
+    outline: none;
+    transition: border-color .2s;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  .contact-form-wrap .form-input:focus,
+  .contact-form-wrap .form-select:focus,
+  .contact-form-wrap .form-textarea:focus {
+    border-color: var(--gold);
+  }
+  .contact-form-wrap .form-input::placeholder,
+  .contact-form-wrap .form-textarea::placeholder {
+    color: rgba(255,255,255,.2);
+  }
+  .contact-form-wrap .form-textarea {
+    resize: vertical;
+    min-height: 96px;
+  }
+  .contact-form-wrap .form-input.field-error,
+  .contact-form-wrap .form-textarea.field-error {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 2px rgba(254,212,97,.25) !important;
+    animation: fieldShake .35s ease;
+  }
+  .contact-form-wrap .btn-send {
+    width: 100%;
+    height: clamp(48px, 3.5vw, 60px);
+    border-radius: 4px;
+    background: var(--gold);
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: clamp(14px, 0.9vw, 16px);
+    font-weight: 500;
+    color: #1D1D1D;
+    cursor: pointer;
+    transition: background .25s, transform .2s;
+    margin-top: 0;
+  }
+  .contact-form-wrap .btn-send:hover {
+    background: #e8c050;
+    transform: translateY(-1px);
+  }
+  .contact-form-wrap .btn-send:disabled {
+    opacity: .6;
+    cursor: not-allowed;
+    transform: none;
+  }
+
+
+  /* ════════════════════════════════════════
+     CONTACT FORM — финальный override
+     Поля идентичны estimate popup
+  ════════════════════════════════════════ */
+  .contact-form-wrap .form-group { margin-bottom: 16px !important; }
+
+  .contact-form-wrap .form-label {
+    display: block !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 400 !important;
+    letter-spacing: .1em !important;
+    text-transform: uppercase !important;
+    color: rgba(255,255,255,.5) !important;
+    margin-bottom: 8px !important;
+  }
+
+  .contact-form-wrap .form-input,
+  .contact-form-wrap .form-textarea {
+    width: 100% !important;
+    background: #ffffff !important;
+    border: 1.5px solid transparent !important;
+    border-radius: 8px !important;
+    color: #151515 !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 400 !important;
+    padding: 16px 20px !important;
+    outline: none !important;
+    transition: border-color .2s !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    box-shadow: none !important;
+  }
+
+  .contact-form-wrap .form-input::placeholder,
+  .contact-form-wrap .form-textarea::placeholder {
+    color: rgba(0,0,0,.35) !important;
+    font-family: 'DM Sans', sans-serif !important;
+  }
+
+  .contact-form-wrap .form-input:focus,
+  .contact-form-wrap .form-textarea:focus {
+    border-color: var(--gold) !important;
+    box-shadow: none !important;
+  }
+
+  .contact-form-wrap .form-input.field-error,
+  .contact-form-wrap .form-textarea.field-error {
+    border-color: var(--gold) !important;
+    box-shadow: 0 0 0 2px rgba(254,212,97,.3) !important;
+    animation: fieldShake .35s ease !important;
+  }
+
+  .contact-form-wrap .form-textarea {
+    resize: vertical !important;
+    min-height: 96px !important;
+  }
+
+  .contact-form-wrap .btn-send {
+    width: 100% !important;
+    height: 58px !important;
+    border-radius: 6px !important;
+    background: var(--gold) !important;
+    border: none !important;
+    font-family: 'DM Sans', sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: #1D1D1D !important;
+    cursor: pointer !important;
+    margin-top: 0 !important;
+    transition: background .25s, transform .2s !important;
+  }
+  .contact-form-wrap .btn-send:hover {
+    background: #e8c050 !important;
+    transform: translateY(-1px) !important;
+  }
+
+
+  /* Banner video background */
+  .banner-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+
+  /* Banner video — затемнение поверх видео */
+  .banner-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(21,21,21,.55);
+    z-index: 2;
+  }
+
+
+</style>
+</head>
+<body>
+
+
+<!-- ════════════════════════════════════════
+     PRELOADER
+════════════════════════════════════════ -->
+<div id="preloader">
+
+  <!-- Real logo SVG with reveal animation -->
+  <!-- Using the palm leaf / wave shape as placeholder — replace paths with real logo_str.svg paths -->
+  <div class="preloader-logo-wrap">
+  <svg class="preloader-logo" viewBox="0 0 72 77" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path class="logo-path" d="M44.8506 0.865461C45.3242 0.576974 45.8608 0.264446 46.0344 0.176298C46.208 0.0801353 46.3738 0.00801353 46.4053 0C46.429 0 46.2001 0.336568 45.8845 0.745258C45.5688 1.14593 44.8822 2.0755 44.3614 2.80474C43.8405 3.53397 43.2407 4.39943 43.0198 4.72798C42.8067 5.05654 42.2858 5.88994 41.8754 6.57109C41.4572 7.25224 40.9284 8.15777 40.6917 8.57448C40.4549 8.99118 39.9183 9.96883 39.5079 10.7381C39.0896 11.5074 38.5688 12.5171 38.3399 12.9819C38.1111 13.4467 37.6218 14.4003 37.2509 15.1055C36.8799 15.8107 36.367 16.7483 36.1065 17.189C35.8382 17.6298 35.2463 18.5754 34.7728 19.2966C34.3072 20.0098 33.9442 20.5868 33.9837 20.5707C34.0152 20.5627 34.6781 20.2261 36.8642 19.1123L37.2035 18.5914C37.3929 18.3029 37.9059 17.2211 38.3399 16.1873C38.7819 15.1536 39.3737 13.8554 39.6579 13.3025C39.942 12.7495 40.4234 11.8841 40.7311 11.3792C41.031 10.8744 41.4809 10.1692 41.7176 9.81657C41.9623 9.46398 42.4121 8.85495 42.712 8.45427C43.0119 8.06161 43.7063 7.23622 44.2509 6.61917C44.7954 6.01015 45.6162 5.17674 46.0739 4.77606C46.5316 4.36737 47.2024 3.79841 47.5733 3.50993C47.9442 3.22144 48.6229 2.7246 49.0964 2.41207C49.562 2.09954 50.3749 1.61072 50.9115 1.33025C51.4403 1.04176 52.1427 0.697177 52.4662 0.560947C52.7898 0.424717 53.066 0.320541 53.0739 0.336568C53.0818 0.352595 52.7346 0.761285 52.2926 1.2421C51.8586 1.73092 50.9984 2.71659 50.3828 3.44582C49.7593 4.17505 48.8518 5.28893 48.3546 5.93001C47.8574 6.57109 47.1472 7.49265 46.7841 7.97346C46.4211 8.46229 45.7661 9.32775 45.3321 9.89671C44.898 10.4737 44.2746 11.283 43.951 11.6998C43.6274 12.1165 43.1618 12.7095 42.9172 13.014C42.6804 13.3185 41.9149 14.24 41.2283 15.0574C40.5338 15.8748 39.65 16.9085 39.2554 17.3493C38.8608 17.79 38.4662 18.2308 38.3794 18.335C38.2215 18.5193 38.2215 18.5193 38.774 18.3029C39.0818 18.1827 39.792 17.9102 40.3523 17.6939C41.3546 17.3172 41.394 17.2932 41.9307 16.7242C42.2385 16.4037 42.783 15.6985 43.1539 15.1536C43.5248 14.6007 44.1877 13.6631 44.6218 13.0701C45.0637 12.4691 45.8134 11.5315 46.287 10.9785C46.7605 10.4256 47.5339 9.61623 48.0074 9.1835C48.4888 8.74276 49.2464 8.08565 49.7041 7.70901C50.1618 7.34039 51.0615 6.67527 51.7165 6.23453C52.411 5.76173 53.5 5.12065 54.3603 4.68791C55.1652 4.27922 56.2859 3.77437 56.8462 3.56602C57.4144 3.35767 58.243 3.10124 58.7007 2.99706C59.1585 2.88487 59.5767 2.80474 59.6241 2.82076C59.6793 2.83679 59.3084 3.17336 58.8033 3.56602C58.2983 3.9667 57.3828 4.69593 56.7751 5.20078C56.1596 5.70563 54.7075 6.95574 53.5316 7.97346C52.3557 8.99118 50.9194 10.2413 50.3276 10.7461C49.7436 11.243 49.0491 11.828 48.7887 12.0363C48.5361 12.2367 47.7706 12.8537 47.0919 13.3986C46.4132 13.9355 45.703 14.5125 45.5136 14.6728C45.3242 14.825 44.7244 15.3139 44.1877 15.7546C43.6511 16.1873 43.1381 16.612 43.0434 16.6922C42.8856 16.8284 42.8856 16.8364 43.0355 16.7964C43.1223 16.7723 43.588 16.6601 44.0615 16.5479C44.4857 16.4474 44.9542 16.3341 45.1663 16.2827L45.2295 16.2675C45.3873 16.2194 45.7582 16.003 46.0502 15.7706C46.3501 15.5462 46.9025 15.0815 47.2971 14.7449C47.6917 14.4083 48.402 13.8314 48.8755 13.4627C49.349 13.0941 50.1381 12.5332 50.6117 12.2126C51.0852 11.9001 51.8743 11.4193 52.3479 11.1468C52.8214 10.8824 53.721 10.4256 54.3445 10.1371C54.96 9.84863 55.8834 9.47199 56.3884 9.28768C56.9014 9.11138 57.6985 8.86296 58.172 8.72673C58.6376 8.59852 59.4899 8.40619 60.0581 8.30202C60.6342 8.19784 61.5181 8.06161 62.0153 8.00552C62.5125 7.94141 63.6173 7.90134 64.4617 7.90134C65.3062 7.90134 66.1427 7.92538 66.632 8.02956L66.3558 8.14976C66.2058 8.21387 65.5824 8.45427 64.9747 8.69468C64.3671 8.92707 62.3941 9.7124 60.5948 10.4416C58.7954 11.1709 57.2329 11.7879 57.1224 11.82C57.0119 11.852 56.641 11.9963 56.2937 12.1485C55.9465 12.2928 54.2419 12.9899 52.5057 13.6951C50.7695 14.4003 48.8755 15.1616 48.3073 15.402C47.7312 15.6344 47.305 15.8347 47.3602 15.8508C47.4076 15.8668 47.7706 15.8187 48.1652 15.7466C48.5598 15.6745 49.783 15.386 50.8879 15.1055C51.9927 14.817 53.4369 14.4644 54.084 14.3122C54.7391 14.1599 55.8518 13.9275 56.57 13.7913C57.2881 13.6551 58.4798 13.4707 59.2137 13.3906C59.9476 13.3025 61.163 13.2063 61.8969 13.1823C62.7019 13.1502 63.7436 13.1662 64.5012 13.2143C65.1957 13.2704 66.119 13.3586 66.5531 13.4227C66.9871 13.4868 67.6421 13.607 68.0131 13.6951C68.384 13.7833 69.039 13.9676 69.473 14.1038C69.9071 14.2481 70.4595 14.4644 70.6963 14.5846C70.933 14.7048 71.2171 14.8811 71.5249 15.1376L70.2228 15.1456C69.5046 15.1456 68.5655 15.1856 68.1314 15.2257C67.6974 15.2658 66.5768 15.386 65.6455 15.4982C64.7143 15.6104 63.2385 15.7706 62.3704 15.8588C61.5023 15.9469 60.0423 16.0751 59.1348 16.1473C58.2272 16.2114 55.9465 16.3075 54.084 16.3476C52.2216 16.3957 50.3354 16.4678 49.9014 16.5079C49.4673 16.556 48.6861 16.6441 48.1652 16.7162C47.6443 16.7883 47.1945 16.8685 47.1629 16.9005C47.1314 16.9246 47.8416 16.9727 48.7413 17.0047C49.641 17.0368 50.8563 17.1169 51.4403 17.189C52.0243 17.2611 52.9476 17.3894 53.4922 17.4775C54.0367 17.5657 55.0468 17.758 55.7413 17.9102C56.4358 18.0545 57.517 18.3269 58.1483 18.5113C58.7797 18.7036 59.6635 18.9921 60.1213 19.1603C60.579 19.3206 61.2182 19.5771 61.5418 19.7133C61.8653 19.8495 62.6466 20.2342 63.278 20.5707C63.9093 20.8993 64.7222 21.3801 65.0931 21.6365C65.464 21.893 65.8349 22.1814 65.9217 22.2776C66.0085 22.3658 66.0401 22.4379 66.0006 22.4379C65.9612 22.4379 65.1247 22.2776 64.1461 22.0773C63.1675 21.8849 61.5181 21.5564 60.4764 21.3561C59.4347 21.1557 57.8011 20.8272 56.8462 20.6268C55.8913 20.4265 54.2419 20.0659 53.1765 19.8175C52.1111 19.5771 50.517 19.1844 49.6252 18.952C48.7334 18.7196 47.4392 18.367 46.7447 18.1587C46.0502 17.9583 45.2137 17.7259 44.8901 17.6538C44.314 17.5256 44.2745 17.5336 43.588 17.7019C43.1934 17.798 42.3332 18.0705 41.6624 18.2949C40.9916 18.5273 40.3918 18.7517 40.3365 18.7917C40.2655 18.8478 40.739 18.8638 41.7886 18.8478C42.6488 18.8318 43.7931 18.8638 44.3377 18.9119C44.8822 18.96 45.8371 19.0962 46.4685 19.2004C47.0998 19.3126 47.9837 19.4889 48.4414 19.6011C48.8991 19.7053 49.5857 19.8896 49.9803 20.0018C50.3749 20.114 51.1325 20.3544 51.677 20.5307C52.2216 20.707 53.2633 21.0916 54.0051 21.3721C54.747 21.6606 56.199 22.3177 57.2408 22.8386C58.2825 23.3594 59.5057 24.0246 59.9634 24.3211C60.4212 24.6176 60.8315 24.89 60.871 24.9381C60.9262 24.9942 60.8236 25.0022 60.5553 24.9702C60.3422 24.9381 59.3794 24.7698 58.4245 24.5935C57.4696 24.4172 55.836 24.0967 54.7943 23.8723C53.7526 23.6559 52.19 23.2873 51.3219 23.0709C50.4538 22.8546 49.4042 22.5821 48.9938 22.4699C48.5835 22.3577 47.4786 22.0372 46.5474 21.7567C45.6162 21.4763 44.3377 21.0756 43.7063 20.8752C43.075 20.6669 42.0806 20.3624 41.4966 20.1861C40.9126 20.0098 40.1314 19.8175 39.7604 19.7533C39.3895 19.6812 38.9476 19.6331 38.774 19.6331C38.6004 19.6331 38.2294 19.7213 37.9453 19.8415C37.6612 19.9537 36.8168 20.3544 36.075 20.739C35.3253 21.1237 34.7255 21.4442 34.7334 21.4522C34.7413 21.4602 35.049 21.4282 35.42 21.3801C35.7909 21.324 36.8563 21.2839 37.7875 21.2919C39.0818 21.3 39.7447 21.34 40.5891 21.4682C41.1968 21.5644 42.1595 21.7327 42.7199 21.8449C43.2802 21.9491 44.1562 22.1494 44.6534 22.2856C45.1505 22.4219 46.0423 22.6783 46.6263 22.8546C47.2103 23.0309 48.2915 23.3915 49.0333 23.6559C49.7751 23.9204 50.9984 24.4092 51.756 24.7378C52.5136 25.0663 53.721 25.6433 54.4392 26.0119C55.1573 26.3805 55.986 26.8453 56.2937 27.0457C56.6489 27.27 56.7909 27.4063 56.6883 27.4063C56.6015 27.4063 56.1596 27.3341 55.7019 27.246C55.2441 27.1579 54.3445 26.9816 53.6895 26.8453C53.0423 26.7091 51.8665 26.4767 51.0852 26.3244C50.3039 26.1722 48.9149 25.9077 48.0074 25.7314C47.0998 25.5551 45.6556 25.2506 44.8112 25.0583C43.9668 24.858 42.6725 24.5374 41.9307 24.3371C41.1889 24.1287 40.0367 23.8002 39.3659 23.5998C38.6951 23.3915 37.827 23.1351 37.4324 23.0229C37.0378 22.9107 36.3275 22.7103 35.854 22.5821C35.1753 22.3978 34.7965 22.3417 33.2497 22.3177L32.7368 22.6382C32.4526 22.8145 31.7266 23.3354 31.1189 23.8002C30.5113 24.265 29.9588 24.6817 29.8957 24.7378C29.8089 24.8099 29.9036 24.8019 30.2114 24.7217C30.4481 24.6576 31.0163 24.5535 31.4741 24.4813C31.9318 24.4172 32.8709 24.3371 33.5654 24.305C34.2914 24.281 35.2306 24.297 35.7751 24.3531C36.296 24.4012 37.2903 24.5294 37.9848 24.6416C38.6793 24.7538 39.7999 24.9702 40.4707 25.1304C41.1415 25.2907 42.3884 25.6112 43.2328 25.8436C44.0773 26.084 45.3952 26.4767 46.1528 26.7331C46.9104 26.9816 48.1573 27.4143 48.9149 27.6948C49.6725 27.9672 50.6117 28.3198 51.0062 28.4721C51.4008 28.6243 51.9533 28.8567 52.2532 29.001C52.5451 29.1372 52.7819 29.2574 52.7819 29.2734C52.7819 29.2814 52.4504 29.2814 52.048 29.2654C51.6534 29.2494 50.3986 29.1692 49.2701 29.0811C48.1415 28.9929 46.5237 28.8327 45.6793 28.7285C44.8349 28.6163 43.5012 28.424 42.7199 28.2878C41.9386 28.1515 40.96 27.9752 40.5496 27.8871C40.1393 27.7989 39.3343 27.6226 38.774 27.4944C38.2137 27.3662 36.9825 27.0537 36.0513 26.8053C35.1201 26.5568 34.0705 26.2844 33.7232 26.2042C33.376 26.1241 32.7368 25.9799 32.3027 25.8837C31.8687 25.7875 31.0874 25.6914 30.5665 25.6673C30.0457 25.6433 29.4222 25.6433 29.1854 25.6753C28.8698 25.7074 28.6646 25.7875 28.4357 25.9718C28.2621 26.1081 27.5992 26.7091 26.9521 27.3101C26.3128 27.9191 25.7999 28.416 25.8078 28.424C25.8235 28.432 26.2418 28.3358 26.739 28.2156C27.2362 28.0874 27.9859 27.9272 28.3963 27.855C28.8066 27.7909 29.6116 27.6948 30.1719 27.6387C30.7401 27.5906 31.6398 27.5746 32.1843 27.6066C32.7289 27.6306 33.6364 27.7108 34.1967 27.7749C34.757 27.839 35.7198 27.9832 36.3275 28.0954C36.9352 28.2076 37.9296 28.424 38.5372 28.5682C39.1449 28.7125 40.2418 29.001 40.9837 29.2093C41.7255 29.4177 42.9093 29.7622 43.6274 29.9866C44.3456 30.211 45.0874 30.4354 45.2847 30.4915C45.482 30.5476 46.208 30.7639 46.9025 30.9723C47.597 31.1726 48.323 31.405 48.8755 31.6134L48.3625 31.6615C48.0784 31.6935 47.1235 31.7175 46.2317 31.7256C45.3399 31.7256 43.9194 31.6935 43.075 31.6534C42.2306 31.6054 40.8101 31.5012 39.9183 31.405C39.0265 31.3169 37.677 31.1326 36.9194 31.0043C36.1618 30.8761 35.1674 30.6918 34.7097 30.6037C34.252 30.5155 33.084 30.2431 32.1054 30.0107C31.1268 29.7703 29.8326 29.4818 29.2249 29.3616C28.3884 29.2013 27.8438 29.1532 26.9757 29.1372C25.9893 29.1292 25.7525 29.1532 25.279 29.3055C24.7818 29.4657 24.6635 29.5459 24.0795 30.1469C23.7322 30.5155 23.1009 31.2127 22.6826 31.6935C22.2643 32.1823 21.9329 32.583 21.9487 32.591C21.9566 32.599 22.4301 32.4468 22.9904 32.2545C23.5507 32.0621 24.4267 31.8137 24.9239 31.7015C25.4211 31.5893 26.2971 31.4451 26.8574 31.373C27.465 31.3008 28.5541 31.2528 29.5248 31.2528C30.456 31.2528 31.6398 31.3089 32.2869 31.373C32.9025 31.4451 34.1336 31.6294 35.0254 31.7817C35.9171 31.9339 37.9769 32.3506 39.6026 32.7112C41.2283 33.0638 42.9882 33.4405 43.509 33.5446C44.0299 33.6488 44.5429 33.753 44.6534 33.777C44.7638 33.8011 44.8349 33.8331 44.8112 33.8572C44.7875 33.8732 44.3298 33.9613 43.7853 34.0495C43.2407 34.1376 42.2148 34.2659 41.4966 34.338C40.7785 34.4021 39.3264 34.4822 38.261 34.5063C37.0772 34.5383 35.6883 34.5223 34.6702 34.4662C33.7627 34.4101 32.4132 34.2979 31.6714 34.2098C30.9295 34.1296 29.3748 33.8972 28.199 33.7049C27.0231 33.5046 25.7209 33.3042 25.3027 33.2642C24.8765 33.2161 24.1189 33.176 23.6217 33.176C23.1167 33.176 22.4695 33.2321 22.1618 33.2962C21.854 33.3603 21.4752 33.4725 21.3173 33.5366C21.1043 33.6168 20.8438 33.8652 20.4256 34.3941C20.102 34.8028 19.5811 35.4839 19.2812 35.9006C18.9735 36.3173 18.5631 36.8943 18.3737 37.1828C18.1764 37.4632 18.0738 37.6796 18.1369 37.6476C18.2001 37.6155 18.792 37.343 19.4391 37.0385C20.0941 36.734 21.0332 36.3333 21.5304 36.149C22.0276 35.9647 22.8641 35.7083 23.385 35.5801C23.9058 35.4599 24.6477 35.3076 25.0423 35.2515C25.5 35.1794 26.3918 35.1393 27.5676 35.1473C28.704 35.1554 29.7537 35.2034 30.3692 35.2836C30.9137 35.3557 32.3343 35.54 33.5259 35.7003C34.7176 35.8605 36.1618 36.0449 36.7221 36.109C37.2824 36.1731 38.3873 36.2772 39.1686 36.3414C39.9498 36.4055 40.9442 36.4616 42.1674 36.4696L41.8518 36.6138C41.6782 36.694 41.0231 36.9103 40.3918 37.0866C39.7604 37.2709 38.9792 37.4713 38.6556 37.5354C38.332 37.5995 37.6376 37.7277 37.1167 37.8158C36.5958 37.904 35.854 38.0082 35.4594 38.0563C35.0648 38.1043 34.2835 38.1845 33.7232 38.2245C33.1629 38.2726 31.9318 38.3047 31.0006 38.3047C30.0693 38.3047 28.7356 38.2646 28.0411 38.2245C27.3467 38.1765 25.9972 38.0643 25.0423 37.9681C23.9058 37.8559 22.73 37.7918 21.6488 37.7918C20.1572 37.7918 19.9205 37.8078 19.3207 37.9681C18.9498 38.0723 18.4053 38.2646 18.0975 38.3848C17.7897 38.513 17.4346 38.7374 17.3004 38.8816C17.1584 39.0259 16.8427 39.4666 16.598 39.8673C16.3455 40.268 15.8957 41.0132 15.6037 41.5341C15.3038 42.047 15.0591 42.4877 15.0591 42.5118C15.0591 42.5358 15.58 42.2874 16.2271 41.9588C16.8664 41.6303 17.6161 41.2697 17.9002 41.1495C18.1843 41.0293 18.8551 40.7728 19.3996 40.5885C19.9442 40.4042 20.7965 40.1558 21.2937 40.0436C21.7908 39.9314 22.6668 39.7711 23.2271 39.691C24.0163 39.5868 24.8134 39.5548 26.6601 39.5468C28.0569 39.5468 29.73 39.5948 30.6454 39.667C31.6871 39.7471 33.3602 39.7872 35.5541 39.7872C37.385 39.7872 38.8371 39.8112 38.7898 39.8433C38.7345 39.8673 38.2531 40.0757 37.7086 40.3C37.164 40.5164 36.1381 40.885 35.42 41.1014C34.7018 41.3258 33.5654 41.6383 32.8946 41.7825C32.2238 41.9348 31.2294 42.1351 30.6849 42.2233C30.1404 42.3114 29.1302 42.4477 28.4357 42.5278C27.394 42.64 26.6522 42.656 24.1742 42.632C22.5248 42.6159 20.3072 42.5999 19.2418 42.5999C17.6319 42.5999 17.2057 42.624 16.677 42.7442C16.3297 42.8243 15.801 43.0006 15.4932 43.1288C15.1854 43.257 14.8224 43.4494 14.6882 43.5615C14.5067 43.6898 14.27 44.0664 13.9227 44.7796C13.6465 45.3405 13.2914 46.1179 13.1335 46.5185C12.9836 46.9192 12.8573 47.2478 12.8731 47.2638C12.881 47.2718 13.1888 47.0795 13.5597 46.8391C13.9306 46.5907 14.6409 46.182 15.1381 45.9255C15.6352 45.6611 16.3455 45.3245 16.7164 45.1723C17.0873 45.02 17.7818 44.7796 18.2553 44.6434C18.7288 44.5071 19.4075 44.3389 19.7548 44.2747C20.102 44.2026 20.7965 44.0904 21.2937 44.0263C21.9802 43.9302 23.5034 43.8821 27.6071 43.826C30.5823 43.7939 33.2813 43.7218 33.6049 43.6817C33.9284 43.6417 34.3546 43.6016 34.907 43.6096L34.1178 43.9943C33.6838 44.2106 32.8472 44.5632 32.2632 44.7876C31.6793 45.012 30.7717 45.3165 30.2508 45.4688C29.73 45.629 28.7909 45.8775 28.1595 46.0297C27.5282 46.182 26.4628 46.3983 25.792 46.5105C25.1212 46.6227 24.0005 46.775 23.3061 46.8391C22.6116 46.9112 20.6386 46.9993 18.9261 47.0394C17.2136 47.0795 15.6352 47.1516 15.4143 47.1917C15.2012 47.2317 14.775 47.3279 14.4673 47.4C14.1595 47.4721 13.6465 47.6725 13.3229 47.8408C12.9994 48.0171 12.6521 48.2334 12.5653 48.3376C12.4706 48.4418 12.2891 48.8665 12.155 49.2832C12.0208 49.6999 11.8235 50.3811 11.713 50.7897C11.5946 51.1904 11.5236 51.527 11.5473 51.527C11.571 51.527 11.8788 51.3347 12.2418 51.0943C12.5969 50.8539 13.1572 50.5173 13.4808 50.341C13.8043 50.1567 14.3726 49.8842 14.7435 49.7239C15.1144 49.5637 15.8404 49.3072 16.3613 49.163C16.8821 49.0107 17.6476 48.8184 18.058 48.7303C18.4684 48.6421 19.2734 48.5219 19.8337 48.4498C20.394 48.3777 21.27 48.2895 21.7672 48.2414C22.2643 48.2014 23.6691 48.0892 24.8844 48.001C26.0998 47.9129 27.5755 47.7847 28.1595 47.7126C28.7435 47.6484 29.659 47.5282 30.1877 47.4561C30.7243 47.384 31.1584 47.3279 31.1584 47.3439C31.1584 47.3519 30.7401 47.5683 30.2351 47.8328C29.7221 48.0892 28.8777 48.4738 28.3568 48.6822C27.836 48.8905 26.8574 49.2512 26.1866 49.4835C25.5158 49.7159 24.3793 50.0525 23.6612 50.2368C22.943 50.4211 21.9487 50.6455 21.4515 50.7337C20.9543 50.8218 20.244 50.95 19.8731 51.0061C19.5022 51.0702 18.7209 51.1744 18.1369 51.2385C17.5529 51.3026 16.5901 51.3988 16.0062 51.4469C15.4222 51.4949 14.5541 51.5671 14.0727 51.6151C13.5913 51.6552 12.9757 51.7434 12.6916 51.8075C12.3996 51.8796 12.0129 52.0399 11.7919 52.1841C11.5789 52.3283 11.3816 52.5046 11.35 52.5688C11.3105 52.6329 11.1922 53.298 11.0896 54.0513C10.9791 54.8045 10.8291 55.8142 10.766 56.295C10.695 56.7759 10.6003 57.8016 10.4424 59.9572L10.8055 60.2938C11.0028 60.4701 11.4842 60.7906 11.8709 60.991C12.2576 61.1993 12.8021 61.4397 13.0862 61.5279C13.3703 61.624 13.9227 61.7603 14.3094 61.8324C14.7908 61.9286 15.4143 61.9686 16.2429 61.9686C17.0163 61.9686 17.7581 61.9205 18.2553 61.8324C18.6894 61.7603 19.3286 61.624 19.6758 61.5359C20.0231 61.4477 20.6465 61.2554 21.0569 61.1032C21.4673 60.9589 22.0354 60.7346 22.3196 60.6224L22.3196 60.6223C22.6037 60.5021 23.1167 60.2617 23.4639 60.0854C23.8111 59.9011 24.4504 59.5405 24.8844 59.2761C25.3185 59.0196 26.0682 58.5228 26.5417 58.1862C27.0152 57.8497 27.7491 57.3128 28.1595 56.9842C28.5699 56.6557 29.3512 56.0066 29.8957 55.5418C30.4324 55.077 32.066 53.5144 33.5259 52.0799C34.978 50.6455 36.438 49.2271 36.7616 48.9306C37.0851 48.6261 37.7638 48.0732 38.261 47.6885C38.7582 47.3039 39.4684 46.791 39.8394 46.5426C40.2103 46.2942 40.9521 45.8614 41.4966 45.5729C42.0412 45.2845 42.8935 44.8838 43.3907 44.6834C43.8879 44.4831 44.7086 44.2187 45.2058 44.0904C45.703 43.9542 46.5553 43.7859 47.0998 43.7138C47.8732 43.6016 48.402 43.5776 49.5463 43.6176C50.5196 43.6444 51.2956 43.7138 51.8743 43.826C52.3479 43.9141 53.1134 44.1225 53.5711 44.2828C54.0288 44.443 54.6444 44.6995 54.9521 44.8517C55.2599 45.012 55.765 45.3165 56.0807 45.5249C56.3885 45.7412 56.8698 46.1419 57.1382 46.4224C57.4065 46.6948 57.7853 47.1676 57.9826 47.4802C58.1878 47.7927 58.4403 48.2735 58.5587 48.562C58.6692 48.8505 58.7876 49.2271 58.8823 49.7239L58.3377 49.2031C58.0378 48.9146 57.5959 48.554 57.3591 48.4017C57.1224 48.2495 56.6804 48.0251 56.3727 47.8969C56.0649 47.7687 55.4572 47.6164 54.9916 47.5443C54.3287 47.4481 54.0288 47.4401 53.4922 47.5042C53.1212 47.5523 52.5215 47.6885 52.1506 47.8007C51.7796 47.9209 51.1799 48.1854 50.809 48.3857C50.3118 48.6662 49.9487 48.9627 49.3884 49.5236C48.9781 49.9403 48.5203 50.4852 48.3862 50.7256C48.2441 50.966 48.0389 51.3828 47.9363 51.6472C47.8259 51.9116 47.6759 52.3604 47.597 52.6489C47.4865 53.0415 47.4549 53.4502 47.4628 54.3317C47.4628 55.1731 47.5023 55.6379 47.6049 56.0146C47.6759 56.3031 47.8416 56.7839 47.9679 57.0964C48.0942 57.4089 48.3783 57.9298 48.5914 58.2584C48.8044 58.5869 49.2227 59.1238 49.5147 59.4524C49.8146 59.7809 50.3591 60.2778 50.73 60.5582C51.1088 60.8467 51.8507 61.2955 52.4268 61.584C52.9871 61.8644 53.7368 62.185 54.084 62.2892C54.4313 62.4014 55.0311 62.5616 55.4256 62.6418C56.0017 62.762 56.4989 62.786 58.0299 62.786C59.8135 62.778 59.9871 62.77 60.9499 62.5536C61.5181 62.4334 62.3862 62.185 62.8834 62.0087C63.3806 61.8324 64.1461 61.5199 64.5801 61.3115C65.0142 61.1032 65.7086 60.7265 66.119 60.4701C66.5294 60.2137 67.1528 59.7889 67.5001 59.5165C67.8473 59.244 68.4155 58.7712 68.7628 58.4667C69.11 58.1542 69.5835 57.7215 69.8203 57.4971C70.0491 57.2807 70.6173 56.6637 71.0751 56.1348C71.5249 55.6059 71.9353 55.1331 71.9747 55.093C72.0142 55.0529 72.0063 55.1251 71.9589 55.2533C71.9116 55.3815 71.6512 55.9104 71.3907 56.4152C71.1224 56.9201 70.6568 57.7134 70.3569 58.1782C70.0491 58.643 69.6072 59.2681 69.3626 59.5806C69.1179 59.8931 68.5339 60.5502 68.0525 61.0551C67.579 61.5519 66.8845 62.209 66.5136 62.4975C66.1427 62.794 65.685 63.1466 65.4877 63.2828C65.2904 63.4191 64.7616 63.7316 64.3039 63.988C63.8462 64.2365 63.1359 64.581 62.7256 64.7493C62.3152 64.9176 61.5812 65.166 61.1077 65.3023C60.6342 65.4385 59.8845 65.6308 59.4505 65.7189C59.0164 65.8071 58.1483 65.9353 57.517 66.0074C56.7199 66.0956 55.9781 66.1196 55.0705 66.0876C54.3524 66.0635 53.358 65.9834 52.8608 65.9113C52.3636 65.8392 51.6139 65.6949 51.2035 65.5907C50.7932 65.4866 50.1855 65.3103 49.8619 65.1981C49.5384 65.0939 48.8755 64.8295 48.402 64.6211C47.9284 64.4047 47.234 64.0361 46.8631 63.8037C46.4921 63.5633 45.9318 63.1707 45.6083 62.9222C45.2926 62.6658 44.7402 62.1609 44.385 61.7843C44.0378 61.4077 43.5801 60.8467 43.3749 60.5422C43.1776 60.2297 42.8856 59.7328 42.7356 59.4203C42.5778 59.1078 42.3647 58.5388 42.2543 58.1382C42.1359 57.7375 42.0017 57.0163 41.9544 56.5354C41.8912 55.8864 41.8912 55.4456 41.9544 54.8526C42.0017 54.4119 42.1122 53.7788 42.199 53.4502C42.2779 53.1217 42.4594 52.5768 42.5857 52.2482C42.7199 51.9197 43.0276 51.3347 43.2723 50.95C43.509 50.5574 43.6827 50.2448 43.6511 50.2448C43.6116 50.2448 43.3039 50.4131 42.9566 50.6134C42.6094 50.8138 42.0964 51.1504 41.8123 51.3507C41.5282 51.559 41.0468 51.9437 40.739 52.2081C40.4312 52.4726 39.4369 53.4102 38.5293 54.2836C37.6218 55.1651 36.3275 56.3591 35.6567 56.9441C34.9859 57.5211 34.1178 58.2503 33.7232 58.5549C33.3286 58.8674 32.6421 59.3802 32.1843 59.7088C31.7266 60.0374 30.9848 60.5502 30.5271 60.8387C30.0693 61.1272 29.2328 61.616 28.6725 61.9286C28.1122 62.2411 27.252 62.6658 26.7785 62.8741C26.3049 63.0745 25.5158 63.387 25.0423 63.5633C24.5688 63.7396 23.6454 64.0201 22.9904 64.1964C22.3433 64.3647 21.2937 64.581 20.6623 64.6692C19.8495 64.7894 19.084 64.8375 18.0186 64.8375C17.1899 64.8375 16.1798 64.7974 15.7694 64.7493C15.359 64.7012 14.6961 64.5891 14.3094 64.5009C13.9227 64.4208 13.2598 64.2365 12.8494 64.1002C12.4391 63.964 11.8709 63.7476 11.5868 63.6114C11.3026 63.4832 10.8291 63.2187 10.5214 63.0344C10.2136 62.8421 9.75586 62.4575 9.49543 62.177C9.16397 61.8244 8.95879 61.5119 8.83252 61.1833C8.72993 60.9188 8.62733 60.4701 8.61155 60.1816C8.58787 59.8931 8.61155 59.1559 8.6589 58.5388C8.70625 57.9218 8.80095 57.0163 8.86409 56.5354C8.92722 56.0546 9.06138 55.0449 9.17187 54.2917C9.28235 53.5384 9.4244 52.6649 9.48754 52.3524C9.55856 52.0318 9.61381 51.6712 9.61381 51.551C9.61381 51.4228 9.55856 51.1824 9.48754 51.0061C9.41651 50.8298 9.25078 50.5253 9.11662 50.325C8.97457 50.1246 8.0828 49.171 7.12789 48.2014C6.16509 47.2317 5.0997 46.0618 4.74457 45.597C4.39733 45.1322 3.8528 44.3549 3.52924 43.8741C3.21356 43.3933 2.66114 42.4156 2.30601 41.7104C1.95088 41.0052 1.39056 39.7471 1.067 38.9057C0.743433 38.0723 0.364627 36.9664 0.222575 36.4616C0.0884148 35.9567 -0.0141785 35.532 0.00160507 35.524C0.0173887 35.516 0.719758 36.3093 1.56418 37.2789C2.32303 38.1503 3.19023 39.1511 3.6102 39.6358L3.73442 39.7792C4.08166 40.1798 4.67354 40.885 5.04446 41.3498C5.42326 41.8146 6.03882 42.624 6.41763 43.1529C6.79644 43.6817 7.30151 44.435 7.54616 44.8357C7.7908 45.2364 8.20907 46.0057 8.47739 46.5586C8.74571 47.1115 9.12452 47.977 9.31392 48.4819C9.51121 48.9867 9.7164 49.5957 9.77953 49.8281C9.84267 50.0605 9.91369 50.2448 9.94526 50.2448C9.98472 50.2448 10.0084 50.1807 10.0084 50.1086C10.0084 50.0285 10.2057 49.3714 10.8923 47.3199L10.766 46.9192C10.695 46.7029 10.5371 46.3262 10.403 46.1018C10.2767 45.8694 9.77164 45.1482 9.28235 44.4991C8.80095 43.842 8.12226 42.9365 7.77502 42.4717C7.42778 42.0069 6.89114 41.2296 6.57547 40.7488C6.26769 40.268 5.80996 39.5067 5.57321 39.066C5.32856 38.6252 4.93397 37.8158 4.69722 37.2629C4.45258 36.71 4.05799 35.6682 3.82123 34.939C3.58448 34.2098 3.28459 33.0798 3.15043 32.4147C3.01627 31.7576 2.85054 30.7639 2.78741 30.211C2.72427 29.6581 2.66903 28.9769 2.66903 28.1676L3.09519 28.9689C3.32405 29.4097 3.86069 30.3633 4.28685 31.0925C4.713 31.8217 5.47062 33.0798 5.9678 33.8972C6.46498 34.7146 7.06476 35.6842 7.29362 36.0609C7.52248 36.4375 8.00388 37.287 8.3669 37.9441C8.72993 38.6092 9.25078 39.6509 9.527 40.268C9.80321 40.885 10.182 41.8627 10.3714 42.4316C10.5608 43.0006 10.8212 43.9782 10.9554 44.5953C11.0896 45.2123 11.2237 45.8454 11.3263 46.2781L11.421 46.0377C11.4684 45.9095 11.7446 45.2925 12.0287 44.6754C12.3207 44.0584 12.5732 43.4814 12.589 43.3933C12.6127 43.3051 12.5496 42.9605 12.4549 42.632C12.3601 42.3034 12.1392 41.7425 11.9577 41.3899C11.784 41.0373 11.279 40.1558 10.8449 39.4266C10.403 38.6973 9.87424 37.8158 9.67694 37.4632C9.47965 37.1107 9.03771 36.2452 8.69047 35.54C8.34323 34.8348 7.87761 33.785 7.65664 33.2161C7.43567 32.6471 7.11211 31.6855 6.93849 31.0925C6.76487 30.4995 6.49655 29.3776 6.3466 28.6083C6.19666 27.839 6.02304 26.7572 5.97569 26.2042C5.92045 25.6513 5.88099 24.3932 5.88099 23.3995C5.88099 22.4058 5.92834 21.2519 5.98358 20.8352C6.03882 20.4185 6.10985 20.0018 6.14142 19.9136C6.18877 19.7854 6.22823 19.8495 6.33871 20.2342C6.40974 20.4986 6.57547 21.0916 6.70963 21.5564C6.8359 22.0212 7.16735 23.0469 7.44356 23.8403C7.71978 24.6336 8.0828 25.6433 8.25642 26.084C8.43004 26.5248 8.71414 27.23 8.88776 27.6467C9.06138 28.0634 9.54278 29.2173 9.95315 30.211C10.3714 31.2047 10.8765 32.4468 11.0738 32.9757C11.279 33.5046 11.6025 34.4261 11.7998 35.0191C11.9971 35.6121 12.2733 36.5898 12.4233 37.1828C12.5732 37.7758 12.7468 38.5932 12.81 38.9858C12.8731 39.3865 12.9757 40.284 13.0467 40.9892C13.1099 41.6944 13.1888 42.2874 13.2125 42.3114C13.2282 42.3355 13.244 42.3114 13.244 42.2714C13.244 42.2313 13.5992 41.5822 14.8382 39.4666L14.7987 38.9057C14.775 38.5531 14.6409 37.9841 14.4436 37.3831C14.27 36.8542 13.9622 36.0449 13.757 35.5801C13.5518 35.1153 13.1572 34.2017 12.8731 33.5366C12.589 32.8795 12.1076 31.5813 11.8077 30.6518C11.4999 29.7222 11.1211 28.3759 10.9554 27.6467C10.7897 26.9174 10.6003 25.9799 10.5293 25.5632C10.4582 25.1465 10.332 24.1928 10.2451 23.4396C10.1583 22.6863 10.0636 21.3721 10.0321 20.5146C10.0084 19.561 10.0242 18.5113 10.0794 17.8301C10.1268 17.2131 10.2215 16.4037 10.2846 16.0271C10.3477 15.6504 10.474 15.0895 10.5608 14.785C10.6555 14.4804 10.7423 14.24 10.7502 14.2641C10.766 14.2881 10.8607 14.6968 10.9554 15.1856C11.0501 15.6745 11.2869 16.7563 11.4763 17.5897C11.6736 18.4231 11.9735 19.6572 12.1471 20.3143L12.1653 20.3811C12.3511 21.0619 12.6843 22.283 12.9362 23.1591C13.1967 24.0646 13.5439 25.2907 13.7175 25.8837C13.8833 26.4767 14.1279 27.3983 14.2621 27.9271C14.3883 28.456 14.5935 29.3055 14.704 29.8103C14.8145 30.3152 15.0118 31.381 15.1381 32.1743C15.288 33.0638 15.4064 34.2098 15.4616 35.1794C15.509 36.0368 15.5248 37.1187 15.4932 37.5835C15.4564 38.1444 15.4643 38.3982 15.5169 38.3447C15.5642 38.2967 16.0298 37.6556 17.5056 35.54V34.8188C17.5056 34.354 17.4346 33.8011 17.3162 33.2561C17.2136 32.7914 16.9216 31.7656 16.6691 30.9723C16.4244 30.179 16.0772 29.0571 15.9115 28.4881C15.7457 27.9191 15.4774 26.8694 15.3275 26.1642C15.1696 25.459 14.9723 24.4092 14.8855 23.8403C14.775 23.087 14.7198 22.2215 14.6882 20.715C14.6567 19.0722 14.6724 18.367 14.775 17.3894C14.854 16.7082 14.996 15.7306 15.0986 15.2257C15.2012 14.7209 15.359 13.9996 15.4537 13.623C15.5484 13.2464 15.801 12.437 16.0219 11.82C16.2429 11.2029 16.5901 10.3535 17.182 9.17549V10.5779C17.1899 11.3472 17.2294 12.6293 17.2688 13.4227C17.3162 14.216 17.403 15.5142 17.4661 16.3075C17.5372 17.1009 17.624 18.0224 17.6634 18.351C17.7029 18.6795 17.7976 19.4408 17.8607 20.0338C17.9318 20.6268 18.0738 21.8369 18.1764 22.7184C18.279 23.5998 18.4289 24.9541 18.5079 25.7234C18.6026 26.7011 18.642 27.815 18.642 29.4097C18.642 31.373 18.6104 31.8938 18.4447 33.1119C18.3185 34.0415 18.2869 34.4982 18.3421 34.4341C18.3974 34.378 18.8867 33.8011 19.4391 33.1359C19.9915 32.4788 20.465 31.8618 20.5045 31.7736C20.536 31.6855 20.5913 31.3089 20.6229 30.9322C20.6544 30.5396 20.6386 29.8344 20.5834 29.2494C20.536 28.6964 20.4098 27.7268 20.3072 27.0857C20.2046 26.4446 20.0625 25.5311 19.9994 25.0423C19.9284 24.5535 19.8179 23.4716 19.7548 22.6382C19.6916 21.8048 19.6364 20.6429 19.6364 20.0739C19.6364 19.5049 19.6758 18.5273 19.7153 17.9102C19.7626 17.2932 19.8495 16.3957 19.9205 15.9069C19.9836 15.418 20.1257 14.5766 20.244 14.0237C20.3545 13.4707 20.5518 12.6614 20.6781 12.2206C20.8044 11.7799 21.0569 11.0266 21.2305 10.5378C21.4041 10.049 21.7829 9.15145 22.0592 8.53441C22.3354 7.91737 22.8326 6.96376 23.1561 6.41082C23.4797 5.85789 23.8506 5.28092 24.2057 4.84819L24.2136 5.12866C24.2136 5.28092 24.111 6.23453 23.9769 7.25224C23.8506 8.26996 23.677 9.80055 23.5902 10.658C23.5034 11.5154 23.3771 13.014 23.314 13.9836C23.2508 14.9532 23.1561 16.6281 23.1088 17.7099C23.0614 18.7917 22.9667 20.3944 22.9036 21.2759C22.8404 22.1574 22.7379 23.3274 22.6747 23.8803C22.6116 24.4333 22.4853 25.3228 22.3985 25.8677C22.3117 26.4046 22.0986 27.4864 21.925 28.2637C21.7593 29.049 21.562 29.9225 21.491 30.211C21.4199 30.4995 21.3726 30.7399 21.3884 30.7479C21.4041 30.7559 21.996 30.1709 24.0163 28.1355L24.2057 27.5104C24.3872 26.8934 24.3951 26.8053 24.4504 22.6382C24.4977 19.553 24.5451 18.1186 24.6398 17.3894C24.7029 16.8364 24.8371 15.9549 24.9239 15.426C25.0107 14.8972 25.2159 13.9596 25.3737 13.3425C25.5237 12.7255 25.8314 11.7078 26.0366 11.0747C26.2497 10.4496 26.6601 9.40788 26.9442 8.75879C27.2283 8.10168 27.6623 7.21218 27.8991 6.77143C28.1437 6.33069 28.5936 5.59344 28.9013 5.12866C29.2012 4.66387 29.7221 3.94266 30.0457 3.52595C30.3771 3.10925 30.8033 2.58837 31.0006 2.372C31.1979 2.16365 31.5214 1.84311 32.1054 1.3623L31.9791 1.779C31.9081 2.0114 31.5924 3.01309 31.2768 4.00676C30.9532 5.00044 30.5902 6.17042 30.4639 6.61116C30.3298 7.05191 30.1167 7.78915 29.9825 8.25393C29.8484 8.71872 29.4932 10.1451 29.1933 11.4193C28.8935 12.6934 28.5541 14.1599 28.4436 14.6648C28.3331 15.1696 28.0648 16.4518 27.8438 17.5096C27.6229 18.5673 27.2835 20.0418 27.0941 20.7951C26.9047 21.5484 26.5338 22.8466 26.2655 23.68C25.9972 24.5134 25.6184 25.6193 25.429 26.1241C25.2396 26.629 25.0975 27.0617 25.1212 27.0857C25.137 27.1098 25.4526 26.8533 25.8078 26.5168C26.1708 26.1882 26.8021 25.6273 27.2125 25.2747C27.6229 24.9301 28.0017 24.5855 28.0569 24.5214C28.1043 24.4573 28.2384 24.1287 28.3489 23.8002C28.4594 23.4716 28.5857 22.9828 28.6251 22.7184C28.6725 22.4539 28.7593 21.7167 28.8303 21.0756C28.8934 20.4345 29.0039 19.4969 29.075 18.9921C29.1381 18.4872 29.2801 17.6378 29.3906 17.1089C29.4932 16.58 29.7063 15.6825 29.8562 15.1055C30.0062 14.5285 30.2508 13.7031 30.3929 13.2624C30.5428 12.8216 30.7796 12.1565 30.9216 11.7799C31.0637 11.4033 31.4267 10.5378 31.7345 9.85664C32.0423 9.17549 32.4842 8.26996 32.721 7.85326C32.9577 7.43656 33.4391 6.64322 33.8021 6.09028C34.1652 5.53735 34.7018 4.78408 34.9938 4.40744C35.2937 4.03081 35.9961 3.25349 36.5643 2.67652C37.1246 2.10756 37.9848 1.33826 38.4583 0.977651C38.9318 0.617042 39.3501 0.320541 39.3895 0.320541C39.4211 0.320541 38.9949 1.23408 38.4504 2.33995C37.898 3.45383 37.314 4.67189 37.1562 5.04852C36.9904 5.42516 36.6748 6.14638 36.4459 6.65123C36.2249 7.15608 35.8224 8.09366 35.562 8.73475C35.3016 9.37583 34.8912 10.4016 34.6545 11.0186C34.4177 11.6356 34.0784 12.5572 33.889 13.0621C33.6996 13.5669 33.2418 14.7609 32.8709 15.7065C32.5 16.6521 31.9476 18.0064 31.6477 18.7116C31.3478 19.4168 30.8664 20.4666 30.5823 21.0355C30.3061 21.6045 29.8878 22.4219 29.6668 22.8386C29.4459 23.2553 29.2565 23.6159 29.2565 23.6399C29.2565 23.664 29.3354 23.6079 29.4301 23.5197C29.5169 23.4316 30.2587 22.9107 31.0716 22.3577C32.3816 21.4602 32.5631 21.316 32.7525 20.9554C32.8709 20.739 33.0603 20.3223 33.1708 20.0338C33.2813 19.7453 33.6522 18.5032 33.9915 17.2692C34.3388 16.0351 34.7492 14.6487 34.907 14.1839C35.0648 13.7192 35.3805 12.8938 35.5936 12.3408C35.8145 11.7879 36.2091 10.9064 36.4696 10.3775C36.7221 9.84863 37.0851 9.15946 37.2587 8.85495C37.4324 8.55044 37.7954 7.94942 38.0637 7.53272C38.332 7.11601 38.845 6.3948 39.208 5.93001C39.5632 5.46523 40.3602 4.58374 40.9758 3.9667C41.5835 3.34966 42.5147 2.51625 43.0355 2.12359C43.5564 1.72291 44.3771 1.16196 44.8506 0.865461Z"/>
+    <path class="logo-path" style="animation-delay:.3s" d="M36.4064 58.6751C37.0615 58.1061 38.0874 57.1685 38.6872 56.5835L39.7841 55.5257L39.8551 56.0306C39.8946 56.3111 39.9735 56.864 40.0446 57.2567C40.1156 57.6573 40.2576 58.2664 40.3681 58.619C40.4786 58.9716 40.7075 59.5646 40.8811 59.9412C41.0468 60.3178 41.4256 60.983 41.7176 61.4237C42.0017 61.8644 42.5778 62.5777 42.9961 63.0184C43.4065 63.4511 44.0299 64.0361 44.3771 64.3086C44.7244 64.589 45.3084 65.0057 45.6793 65.2381C46.0502 65.4705 46.7447 65.8472 47.2182 66.0796C47.6917 66.312 48.5124 66.6485 49.0333 66.8328C49.5542 67.0091 50.3907 67.2415 50.8879 67.3457C51.3851 67.4579 52.1348 67.5861 52.5451 67.6422C52.9871 67.7063 54.0209 67.7544 55.0705 67.7464C56.5463 67.7464 57.0435 67.7143 57.9905 67.5621C58.6218 67.4579 59.4741 67.2896 59.8845 67.1854C60.2949 67.0813 61.0762 66.8409 61.6207 66.6565C62.1652 66.4802 62.8913 66.2078 63.2385 66.0555C63.5858 65.9033 64.2408 65.5827 64.6985 65.3343C65.1562 65.0939 65.7639 64.7333 66.0559 64.541C66.4505 64.2845 66.5689 64.2284 66.5136 64.3486C66.4742 64.4368 65.8902 65.0618 65.2273 65.743C64.5722 66.4161 63.6568 67.2495 63.1991 67.6021C62.7413 67.9467 61.9443 68.4996 61.4234 68.8282C60.9025 69.1568 59.995 69.6536 59.411 69.9261C58.827 70.1985 57.9905 70.5511 57.5564 70.7034C57.1224 70.8556 56.3253 71.096 55.7808 71.2323C55.2362 71.3605 54.376 71.5288 53.8631 71.6009C53.358 71.665 52.3715 71.7211 51.677 71.7211C50.9826 71.7211 50.0671 71.681 49.641 71.6329C49.2227 71.5929 48.4335 71.4566 47.889 71.3445C47.3445 71.2323 46.4606 70.9999 45.916 70.8236C45.3715 70.6473 44.4876 70.2867 43.9431 70.0222C43.3986 69.7658 42.6173 69.3411 42.2069 69.0927C41.7965 68.8442 41.0468 68.3234 40.5496 67.9467C40.0524 67.5621 39.3264 66.945 38.9318 66.5764C38.5372 66.1998 37.9296 65.5507 37.5665 65.126C37.2114 64.7012 36.8721 64.3486 36.8168 64.3486C36.7695 64.3567 36.4932 64.5249 36.2091 64.7413C35.925 64.9497 35.4279 65.3103 35.1043 65.5266C34.7807 65.743 34.1731 66.1276 33.7627 66.368C33.3523 66.6085 32.7131 66.9771 32.3422 67.1774C31.9712 67.3697 31.2057 67.7303 30.6454 67.9788C30.0851 68.2192 29.2249 68.5477 28.7514 68.708C28.2779 68.8763 27.3703 69.1327 26.739 69.277C26.1076 69.4292 25.1843 69.6135 24.6871 69.6937C24.04 69.7898 23.3061 69.8299 22.1223 69.8299C20.9385 69.8299 20.2046 69.7898 19.5575 69.6856C19.0603 69.6055 18.2237 69.4212 17.7029 69.269C17.182 69.1167 16.385 68.8122 15.9272 68.5878C15.4695 68.3634 14.7987 67.9788 14.4278 67.7304C14.0569 67.4819 13.4492 66.953 13.0625 66.5524C12.6837 66.1597 12.3838 65.8231 12.3917 65.8151C12.4075 65.8071 12.7942 65.9193 13.2677 66.0715C13.7333 66.2238 14.4199 66.4081 14.7987 66.4802C15.2091 66.5604 16.1403 66.6245 17.0715 66.6485C18.0265 66.6806 19.005 66.6565 19.5575 66.6004C20.0546 66.5524 20.8912 66.4322 21.412 66.344C21.9329 66.2559 22.8878 66.0475 23.5428 65.8712C24.1899 65.7029 25.0817 65.4385 25.5158 65.2862C25.9498 65.134 26.5733 64.9016 26.8968 64.7653C27.2204 64.6371 27.8438 64.3647 28.2779 64.1643C28.7119 63.972 29.4774 63.5793 29.9746 63.3069C30.4718 63.0264 31.3241 62.5135 31.8687 62.1609C32.4132 61.8084 33.3839 61.1192 34.0389 60.6223C34.686 60.1255 35.7514 59.252 36.4064 58.6751Z"/>
+    <path class="logo-path" style="animation-delay:.6s" d="M33.0524 68.8282C33.81 68.4436 34.8754 67.8345 35.42 67.4819C35.9645 67.1293 36.438 66.8328 36.4696 66.8328C36.5011 66.8328 36.9431 67.2495 37.456 67.7624C37.9611 68.2673 38.7187 68.9484 39.1291 69.269C39.5395 69.5895 40.234 70.0943 40.668 70.3828C41.102 70.6713 41.9386 71.1441 42.5226 71.4246C43.1066 71.7131 44.0141 72.0897 44.535 72.274C45.0558 72.4503 45.8371 72.6667 46.2712 72.7548C46.7052 72.843 47.3839 72.9552 47.7706 73.0033C48.1652 73.0513 49.1043 73.0994 49.8619 73.0994C50.6195 73.0994 51.6139 73.0593 52.0716 73.0113C52.5294 72.9552 53.2002 72.859 53.5711 72.7949C53.942 72.7308 54.6523 72.5865 55.1494 72.4663C55.6466 72.3542 56.3411 72.1779 56.6883 72.0737C57.0356 71.9695 57.2881 71.9214 57.2408 71.9615C57.2013 72.0016 56.7041 72.29 56.1359 72.5946C55.5756 72.9071 54.668 73.3639 54.1235 73.5963C53.579 73.8367 52.8214 74.1572 52.4268 74.3095C52.0401 74.4617 51.2035 74.7502 50.5722 74.9505C49.9409 75.1509 48.9465 75.4394 48.3625 75.5996C47.7785 75.7519 46.8552 75.9683 46.3106 76.0885C45.7661 76.2007 44.898 76.3689 44.3771 76.4491C43.8563 76.5372 43.004 76.6654 42.4831 76.7295C41.9623 76.7936 40.7232 76.8898 39.721 76.9459C38.332 77.018 37.4639 77.018 36.0118 76.9459C34.9701 76.8978 33.6917 76.7936 33.1708 76.7295C32.6499 76.6574 31.7661 76.5052 31.1979 76.401C30.6375 76.2888 29.8168 76.1045 29.3827 75.9923C28.9487 75.8881 28.1674 75.6718 27.6465 75.5115C27.1257 75.3592 26.2734 75.0788 25.7525 74.8864C25.2317 74.6941 24.3241 74.3255 23.7401 74.061C23.1561 73.8046 22.2328 73.3478 21.6882 73.0513C21.1437 72.7548 20.3545 72.266 19.9284 71.9775C19.5101 71.681 19.1708 71.4326 19.1787 71.4326C19.1944 71.4246 19.5022 71.4727 19.8731 71.5448C20.3309 71.6249 21.0806 71.665 22.2407 71.665C23.4955 71.673 24.1742 71.6329 24.845 71.5288C25.3421 71.4566 26.1076 71.3204 26.5417 71.2243C26.9757 71.1361 27.8359 70.9037 28.4594 70.7114C29.075 70.5191 30.0535 70.1745 30.6296 69.9421C31.2057 69.7177 32.2948 69.2129 33.0524 68.8282Z"/>
+  </svg>
+  </div>
+
+  <!-- Logo text -->
+  <div class="preloader-name">
+    <span class="preloader-name-top">Palm Beach</span>
+    <span class="preloader-name-bottom">STR Design</span>
+  </div>
+
+  <!-- Counter 01 → 100 -->
+  <div class="preloader-counter" id="preloaderCounter">01</div>
+
+</div>
+
+<!-- ════════════════════════════════════════
+     NAV
+════════════════════════════════════════ -->
+<nav id="mainNav">
+  <a href="#" class="nav-logo">
+    <img src="images/logo.svg" alt="Palm Beach STR Design" class="nav-logo-img">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#pricing">Prices</a></li>
+    <li><a href="#reviews">Reviews</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Start Your Project</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#services" class="mob-link">Services</a>
+  <a href="#portfolio" class="mob-link">Portfolio</a>
+  <a href="#pricing" class="mob-link">Prices</a>
+  <a href="#reviews" class="mob-link">Reviews</a>
+  <a href="#contact" class="mob-link">Contact</a>
+  <a href="#contact" class="mob-link mobile-menu-cta">Start Your Project</a>
+</div>
+
+<!-- ════════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-bg">
+    <div class="hero-bg-dark"></div>
+    <video autoplay muted loop playsinline class="hero-video">
+      <source src="video/videobg.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <!-- Stats desktop -->
+  <div class="hero-stats" id="heroStats">
+    <div class="stat-item">
+      <div class="stat-num" data-target="40" data-suffix="%">0%</div>
+      <div class="stat-label">Average revenue increase</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="72" data-suffix="h">0h</div>
+      <div class="stat-label">Average booking speed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="5" data-suffix="">
+        <span class="stat-count">0</span><span class="stat-star">
+          <svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z"/>
+          </svg>
+        </span>
+      </div>
+      <div class="stat-label">Average guest rating</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num" data-target="50" data-suffix="+">0+</div>
+      <div class="stat-label">Properties designed</div>
+    </div>
+  </div>
+
+  <div class="hero-content">
+    <p class="hero-location">Palm Beach · South Florida · Nationwide</p>
+    <h1 class="hero-title">
+      <span class="hero-line">Spaces That <span class="highlight">Perform</span></span>
+      <span class="hero-line">as Beautifully as They Look</span>
+    </h1>
+    <p class="hero-subtitle">
+      Luxury short-term rental interiors, designed to maximise bookings and earn five-star reviews. Full-service, from concept to guest-ready.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Start Your Project</a>
+      <a href="https://www.instagram.com/palmbeachstrdesign" target="_blank" rel="noopener" class="btn-outline">
+        <img src="images/insta.svg" alt="" class="btn-outline-icon btn-outline-icon-light">
+        <img src="images/insta_dark.svg" alt="" class="btn-outline-icon btn-outline-icon-dark">
+        View Portfolio
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
+     SERVICES
+════════════════════════════════════════ -->
+<section class="services-section" id="services">
+
+  <div class="services-header fade-in">
+    <h2 class="services-title">Full-Service STR Design</h2>
+    <img class="services-icon" src="images/logo_small.svg" alt="Palm Beach STR Design">
+  </div>
+
+  <!-- Divider line — от левого отступа до правого края фото -->
+  <div class="service-divider fade-in"></div>
+
+  <div class="service-row fade-in">
+    <div class="service-left">
+      <div class="service-num-name">
+        <span class="service-num">01</span>
+        <h3 class="service-name">Interior Design</h3>
+      </div>
+      <p class="service-desc">Full-service interior design tailored to short-term rentals. Julia creates spaces that feel like a luxury escape — and perform like a business. From initial concept and mood board to material selection, floor plans, and final installation oversight, every decision is made with your guest experience and nightly rate in mind.</p>
+    </div>
+    <div class="service-img-wrap">
+      <img class="service-img" src="images/service-01-interior.jpg" alt="Interior Design">
+    </div>
+  </div>
+
+  <div class="service-divider"></div>
+
+  <div class="service-row">
+    <div class="service-left">
+      <div class="service-num-name">
+        <span class="service-num">02</span>
+        <h3 class="service-name">Furnishing &amp; Styling</h3>
+      </div>
+      <p class="service-desc">We handle every piece — from sourcing and procurement to delivery, assembly, and final placement. Artwork, cushions, throws, plants, kitchenware, towels, even the welcome basket. You hand us the keys and receive a fully furnished, styled, guest-ready property. No chasing vendors, no coordinating deliveries.</p>
+    </div>
+    <div class="service-img-wrap">
+      <img class="service-img" src="images/service-02-furnishing.jpg" alt="Furnishing & Styling">
+    </div>
+  </div>
+
+  <div class="service-divider"></div>
+
+  <div class="service-row">
+    <div class="service-left">
+      <div class="service-num-name">
+        <span class="service-num">03</span>
+        <h3 class="service-name">Space Organization</h3>
+      </div>
+      <p class="service-desc">Curated, functional spaces designed for real life. From closet systems and kitchen organization to full move-in setup — we create order that lasts and spaces that actually work.</p>
+    </div>
+    <div class="service-img-wrap">
+      <img class="service-img" src="images/service-03-organization.jpg" alt="Space Organization">
+    </div>
+  </div>
+
+  <div class="service-divider"></div>
+
+  <div class="service-row">
+    <div class="service-left">
+      <div class="service-num-name">
+        <span class="service-num">04</span>
+        <h3 class="service-name">Photography Ready</h3>
+      </div>
+      <p class="service-desc">Great spaces deserve great photos. We stage every property — rental, vacation home, or primary residence — specifically for the camera. Optimal angles, hero shots, and the styling details that make viewers stop scrolling and start booking.</p>
+    </div>
+    <div class="service-img-wrap">
+      <img class="service-img" src="images/service-04-photography.jpg" alt="Photography Ready">
+    </div>
+  </div>
+
+  <div class="service-divider"></div>
+
+  <div class="service-row">
+    <div class="service-left">
+      <div class="service-num-name">
+        <span class="service-num">05</span>
+        <h3 class="service-name">Revenue Strategy</h3>
+      </div>
+      <p class="service-desc">Every design choice is an investment decision. Julia analyses comparable STR properties in your market, identifies what top-performing listings have in common, and reverse-engineers that into your space. Amenity selection, bedroom count optimisation, dedicated workspace, outdoor staging — each feature is chosen to maximise ADR (average daily rate) and occupancy.</p>
+    </div>
+    <div class="service-img-wrap">
+      <img class="service-img" src="images/service-05-revenue.jpg" alt="Revenue Strategy">
+    </div>
+  </div>
+
+  <div class="service-divider" style="margin-bottom: clamp(40px,5vw,80px)"></div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PORTFOLIO
+════════════════════════════════════════ -->
+<section class="portfolio-section" id="portfolio">
+
+  <div class="portfolio-header fade-in">
+    <h2 class="portfolio-title">Portfolio</h2>
+    <p class="portfolio-sub">Every space you see is booked.<br>From empty walls to five-star reviews.</p>
+  </div>
+
+  <div class="portfolio-grid fade-in" id="portfolioGrid">
+    <div class="portfolio-item" data-index="0">
+      <img src="images/portfolio-01.jpg" alt="Project 1" loading="lazy">
+      <div class="pf-label">Before/after</div>
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="1">
+      <img src="images/portfolio-02.jpg" alt="Project 2" loading="lazy">
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="2">
+      <img src="images/portfolio-03.jpg" alt="Project 3" loading="lazy">
+      <div class="pf-label">Before/After</div>
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="3">
+      <img src="images/portfolio-04.jpg" alt="Project 4" loading="lazy">
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="4">
+      <img src="images/portfolio-05.jpg" alt="Project 5" loading="lazy">
+      <div class="pf-label">Before/after</div>
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="5">
+      <img src="images/portfolio-06.jpg" alt="Project 6" loading="lazy">
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="6">
+      <img src="images/portfolio-07.jpg" alt="Project 7" loading="lazy">
+      <div class="pf-label">Before/after</div>
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+    <div class="portfolio-item" data-index="7">
+      <img src="images/portfolio-08.jpg" alt="Project 8" loading="lazy">
+      <div class="pf-label">Before/after</div>
+      <div class="pf-overlay"><div class="pf-zoom"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div></div>
+    </div>
+  </div>
+
+  <div class="portfolio-footer fade-in">
+    <a href="https://www.instagram.com/palmbeachstrdesign" target="_blank" class="btn-instagram">
+      <img src="images/instagram_but.svg" alt="">
+      See More on Instagram
+    </a>
+  </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════
+     ABOUT — ONE TEAM
+════════════════════════════════════════ -->
+<section class="about-section" id="about">
+
+  <!-- Background -->
+  <div class="about-bg">
+    <img src="images/about-bg.jpg" alt="Interior">
+  </div>
+
+  <div class="about-inner">
+
+    <!-- Left: headline -->
+    <div>
+      <h2 class="about-headline">
+        <span class="gold">One team.</span><br>
+        <span class="white">Every stage<br>of your project.</span>
+      </h2>
+    </div>
+
+    <!-- Right: text + Julia -->
+    <div class="about-right fade-in">
+      <div class="about-text">
+        <p>Palm Beach STR Design is a full-service construction, design, and space organization company dedicated to creating spaces that are beautiful, functional, and built to perform. From renovations and remodeling to interior design, home organization, and short-term rental setup — we provide customized solutions for every stage of a property's life.</p>
+        <p>Whether you're converting a home into a high-performing STR, preparing a property for sale, or simply improving the flow of your everyday space, we tailor every project to your specific goals — never a template, always a solution.</p>
+      </div>
+
+      <div class="about-julia">
+        <!-- Play button -->
+        <button class="play-btn" id="playBtn" aria-label="Play video">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="22" height="22">
+            <path d="M5 3l14 9-14 9V3z" fill="#151515"/>
+          </svg>
+        </button>
+
+        <!-- Julia avatar -->
+        <img
+          class="julia-avatar"
+          src="images/julia-avatar.jpg"
+          alt="Julia Minaeva"
+          onerror="this.style.background='#8A7B6A'"
+        >
+
+        <!-- Name -->
+        <span class="julia-name">— Julia Minaeva, Founder</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- VIDEO POPUP -->
+<div class="video-popup" id="videoPopup">
+  <div class="video-popup-inner">
+    <button class="video-close" id="videoClose">✕</button>
+    <video id="aboutVideo" controls playsinline>
+      <source src="video/about.mp4" type="video/mp4">
+    </video>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     PRICING
+════════════════════════════════════════ -->
+<section class="pricing-section" id="pricing">
+
+  <div class="pricing-header fade-in">
+    <h2 class="pricing-title">Investment. Services &amp; Prices</h2>
+    <p class="pricing-note">Final pricing depends on property size, location, and scope of work.</p>
+  </div>
+
+  <div class="pricing-grid">
+
+    <!-- Home Staging -->
+    <div class="pricing-card fade-in">
+      <div class="pricing-img-wrap">
+        <img class="pricing-img" src="images/pricing-01-staging.jpg" alt="Home Staging">
+      </div>
+      <h3 class="pricing-name">Home Staging</h3>
+      <p class="pricing-price">From $3,000</p>
+      <p class="pricing-desc">Get your property ready to impress with carefully chosen furnishings and decor that bring out the best in every room.</p>
+      <button class="btn-estimate" data-service="Home Staging" onclick="openEstimate(this)">Get an estimate</button>
+    </div>
+
+    <!-- Interior Design -->
+    <div class="pricing-card fade-in">
+      <div class="pricing-img-wrap">
+        <img class="pricing-img" src="images/pricing-02-design.jpg" alt="Interior Design">
+      </div>
+      <h3 class="pricing-name">Interior Design</h3>
+      <p class="pricing-price">From $3,000</p>
+      <p class="pricing-desc">Full-service design for renovations, new construction, and furnishing selection — from concept to final installation.</p>
+      <button class="btn-estimate" data-service="Interior Design" onclick="openEstimate(this)">Get an estimate</button>
+    </div>
+
+    <!-- Space Organization -->
+    <div class="pricing-card fade-in">
+      <div class="pricing-img-wrap">
+        <img class="pricing-img" src="images/pricing-03-organization.jpg" alt="Space Organization">
+      </div>
+      <h3 class="pricing-name">Space Organization</h3>
+      <p class="pricing-price">$50/h</p>
+      <p class="pricing-desc">Closet systems, kitchen and pantry organization, wardrobe setup, and full move-in assistance. We unpack, organize, and create systems that stay organized — room by room or whole home.</p>
+      <button class="btn-estimate" data-service="Space Organization" onclick="openEstimate(this)">Get an estimate</button>
+    </div>
+
+    <!-- Property Management -->
+    <div class="pricing-card fade-in">
+      <div class="pricing-img-wrap">
+        <img class="pricing-img" src="images/pricing-04-management.jpg" alt="Property Management">
+      </div>
+      <h3 class="pricing-name">Property Management</h3>
+      <p class="pricing-price">15% from revenue</p>
+      <p class="pricing-desc">Full-service STR management: guest communication, check-ins, maintenance, and listing optimization. You own the property. We handle everything else.</p>
+      <button class="btn-estimate" data-service="Property Management" onclick="openEstimate(this)">Get an estimate</button>
+    </div>
+
+  </div>
+</section>
+
+<!-- ESTIMATE POPUP -->
+<div class="estimate-popup" id="estimatePopup">
+  <div class="estimate-popup-inner">
+    <button class="estimate-close" id="estimateClose">✕</button>
+
+    <h3 class="estimate-popup-title" id="estimatePopupTitle">Home Staging</h3>
+    <p class="estimate-popup-sub">Please submit an inquiry, and we will contact you shortly.</p>
+
+    <form id="estimateForm" novalidate>
+      <!-- Скрытое поле с названием услуги -->
+      <input type="hidden" id="estimate-service-field" name="service" value="">
+
+      <div class="form-group">
+        <label class="form-label" for="ef-name">First and Last Name</label>
+        <input type="text" id="ef-name" name="name" class="form-input" placeholder="First and Last Name" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="ef-email">E-mail</label>
+        <input type="email" id="ef-email" name="email" class="form-input" placeholder="hello@gmail.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="ef-phone">Phone</label>
+        <input type="tel" id="ef-phone" name="phone" class="form-input" placeholder="+1 (561) 000-0000">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="ef-location">Property Location</label>
+        <input type="text" id="ef-location" name="location" class="form-input" placeholder="Palm Beach, FL">
+      </div>
+      <div class="form-group">
+        <label class="form-label" for="ef-message">Tell Us About Your Property</label>
+        <textarea id="ef-message" name="message" class="form-textarea" placeholder="Number of bedrooms, current state, goals..."></textarea>
+      </div>
+
+      <button type="submit" class="btn-send" id="efSubmit">Send inquiry</button>
+      <div class="form-message" id="efMessage"></div>
+    </form>
+  </div>
+</div>
+
+
+<!-- ════════════════════════════════════════
+     BANNER — BUILT TO LIVE IN
+════════════════════════════════════════ -->
+<section class="banner-section" id="banner">
+
+  <div class="banner-bg">
+    <video autoplay muted loop playsinline class="banner-video">
+      <source src="video/videobg2.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <div class="banner-inner">
+
+    <!-- Logo top left -->
+    <div class="banner-logo">
+      <img src="images/logo.svg" alt="Palm Beach STR Design" class="banner-logo-svg">
+    </div>
+
+    <!-- Headline bottom left -->
+    <h2 class="banner-headline fade-in">
+      <span class="white">Built to live in.<br></span>
+      <span class="gold">Designed to stand out.</span>
+    </h2>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     PROCESS
+════════════════════════════════════════ -->
+<section class="process-section" id="process">
+
+  <div class="process-header fade-in">
+    <h2 class="process-title">Our Process</h2>
+  </div>
+
+  <div class="process-grid fade-in">
+
+    <!-- 01 Consult -->
+    <div class="process-card fade-in">
+      <div class="process-card-top">
+        <img src="images/process1.svg" alt="Consult" class="process-icon-file">
+        <span class="process-num">01</span>
+      </div>
+      <div class="process-card-bottom">
+        <div class="process-name">Consult</div>
+        <p class="process-desc">We learn your property, goals, and target guest profile</p>
+      </div>
+    </div>
+
+    <!-- 02 Design -->
+    <div class="process-card fade-in">
+      <div class="process-card-top">
+        <img src="images/process2.svg" alt="Design" class="process-icon-file">
+        <span class="process-num">02</span>
+      </div>
+      <div class="process-card-bottom">
+        <div class="process-name">Design</div>
+        <p class="process-desc">Custom concept boards and layout plans tailored to your space</p>
+      </div>
+    </div>
+
+    <!-- 03 Source -->
+    <div class="process-card fade-in">
+      <div class="process-card-top">
+        <img src="images/process3.svg" alt="Source" class="process-icon-file">
+        <span class="process-num">03</span>
+      </div>
+      <div class="process-card-bottom">
+        <div class="process-name">Source</div>
+        <p class="process-desc">We procure, deliver, and install every piece</p>
+      </div>
+    </div>
+
+    <!-- 04 Launch -->
+    <div class="process-card fade-in">
+      <div class="process-card-top">
+        <img src="images/process4.svg" alt="Launch" class="process-icon-file">
+        <span class="process-num">04</span>
+      </div>
+      <div class="process-card-bottom">
+        <div class="process-name">Launch</div>
+        <p class="process-desc">Your property goes live, photo-ready and guest-ready</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     REVIEWS
+════════════════════════════════════════ -->
+<section class="reviews-section" id="reviews">
+
+  <div class="reviews-header fade-in">
+    <h2 class="reviews-title">What Clients Say</h2>
+    <div class="reviews-rating">
+      <p class="reviews-rating-text">We provide 5-star service for our clients</p>
+      <span class="reviews-rating-num">5</span>
+      <span class="reviews-rating-star">★</span>
+    </div>
+  </div>
+
+  <!-- Carousel -->
+  <div class="reviews-carousel-outer fade-in">
+    <div class="reviews-track" id="reviewsTrack">
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">PS</div>
+          <div class="review-author-info">
+            <div class="review-name">Paras S.</div>
+            <div class="review-meta">April 2026 · Interior Design</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"She didn't just give me a vision; she managed the contractors and oversaw the entire process to ensure the final result matched the designs perfectly. Her communication is excellent, and she is incredibly detail-oriented."</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">AS</div>
+          <div class="review-author-info">
+            <div class="review-name">Ajay S.</div>
+            <div class="review-meta">April 2026 · Home Renovation</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"We couldn't be happier with how our home renovation turned out. From the very beginning, the design vision was clear, thoughtful, and tailored exactly to our lifestyle. Every detail was carefully considered."</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">SV</div>
+          <div class="review-author-info">
+            <div class="review-name">Svetlana V.</div>
+            <div class="review-meta">April 2026 · Vacation Home</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"We couldn't be happier with our decision to work with Julia to transform our vacation home into a beautiful, relaxing space. Her approach is both efficient and cost-conscious, without compromising on style."</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">JB</div>
+          <div class="review-author-info">
+            <div class="review-name">Jeremy B.</div>
+            <div class="review-meta">May 2026 · Verified</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"Julia called me within 5 mins and booked an appointment for the next day. She even cancelled a personal trip to NY to make sure she could take care of me. She defines professionalism."</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">AA</div>
+          <div class="review-author-info">
+            <div class="review-name">Anna A.</div>
+            <div class="review-meta">June 2026 · Sunroom Conversion</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"They handled everything — permits, code compliance, inspections, insulation, flooring, impact windows, HVAC, and all finishing work. The quality of workmanship exceeded our expectations."</p>
+      </div>
+
+      <div class="review-card fade-in">
+        <div class="review-author">
+          <div class="review-avatar">PB</div>
+          <div class="review-author-info">
+            <div class="review-name">Paula B.</div>
+            <div class="review-meta">July 2026 · Packing &amp; Unpacking</div>
+            <div class="review-stars">★★★★★</div>
+          </div>
+        </div>
+        <p class="review-text">"Great job all around. Helped us unpack 155 boxes in short order, decide what to keep, toss and donate, and put everything safely away. No small feat. Julia is excellent!"</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer: button + arrows -->
+  <div class="reviews-footer fade-in">
+    <a href="https://www.thumbtack.com/profile/services/572063279542435850/" target="_blank" class="btn-thumbtack">
+      See all reviews on Thumbtack
+    </a>
+    <div class="reviews-arrows">
+      <button class="reviews-arrow" id="reviewsPrev" aria-label="Previous">
+        <svg viewBox="0 0 10 18"><path d="M9 1L1 9l8 8"/></svg>
+      </button>
+      <button class="reviews-arrow" id="reviewsNext" aria-label="Next">
+        <svg viewBox="0 0 10 18"><path d="M1 1l8 8-8 8"/></svg>
+      </button>
+    </div>
+  </div>
+
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════ -->
+<section class="contact-section" id="contact">
+
+  <div class="contact-bg">
+    <img src="images/contact-bg.jpg" alt="Interior">
+  </div>
+
+  <div class="contact-inner">
+
+    <!-- Left -->
+    <div class="contact-left fade-in">
+      <h2 class="contact-title">Start Your Project</h2>
+      <p class="contact-sub">Tell us about your property. We responds promptly.</p>
+      <div class="contact-email-row">
+        <a href="mailto:palmbeachstr@gmail.com" class="contact-email">palmbeachstr@gmail.com</a>
+        <div class="contact-socials">
+          <a href="https://www.instagram.com/palmbeachstrdesign" target="_blank" class="contact-social-link" aria-label="Instagram">
+            <img src="images/soc1.svg" alt="Instagram">
+          </a>
+          <a href="https://www.linkedin.com/in/juliiаmalovanna" target="_blank" class="contact-social-link" aria-label="LinkedIn">
+            <img src="images/soc2.svg" alt="LinkedIn">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: liquid glass form -->
+    <div class="contact-form-wrap fade-in">
+      <form id="contactForm" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-name">First and Last Name</label>
+          <input type="text" id="cf-name" name="name" class="form-input" placeholder="First and Last Name" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-email">E-mail</label>
+          <input type="email" id="cf-email" name="email" class="form-input" placeholder="hello@gmail.com" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-phone">Phone</label>
+          <input type="tel" id="cf-phone" name="phone" class="form-input" placeholder="+1 (561) 000-0000">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-location">Property Location</label>
+          <input type="text" id="cf-location" name="location" class="form-input" placeholder="Palm Beach, FL">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="cf-message">Tell Us About Your Property</label>
+          <textarea id="cf-message" name="message" class="form-textarea" placeholder="Number of bedrooms, current state, goals..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-send" id="cfSubmit">Send inquiry</button>
+        <div class="form-message" id="cfMessage"></div>
+
+      </form>
+    </div>
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose">✕</button>
+  <div class="lightbox-inner">
+    <button class="lightbox-arrow" id="lightboxPrev">
+      <svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="">
+    <button class="lightbox-arrow" id="lightboxNext">
+      <svg viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
+  <div class="lightbox-counter" id="lightboxCounter">1 / 8</div>
+</div>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Mobile menu
+  const toggle = document.getElementById('navToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+  toggle.addEventListener('click', () => {
+    toggle.classList.toggle('open');
+    mobileMenu.classList.toggle('open');
+  });
+  document.querySelectorAll('.mob-link').forEach(link => {
+    link.addEventListener('click', () => {
+      toggle.classList.remove('open');
+      mobileMenu.classList.remove('open');
+    });
+  });
+
+  // Stats — mobile: move inside hero-content
+  function handleStats() {
+    const stats = document.getElementById('heroStats');
+    const content = document.querySelector('.hero-content');
+    const hero = document.querySelector('.hero');
+    if (window.innerWidth <= 768) {
+      if (!content.contains(stats)) content.appendChild(stats);
+    } else {
+      if (!hero.contains(stats) || content.contains(stats)) {
+        content.parentNode.insertBefore(stats, content);
+      }
+    }
+  }
+  handleStats();
+  window.addEventListener('resize', handleStats);
+
+  // ── PORTFOLIO LIGHTBOX ──
+  const portfolioItems = document.querySelectorAll('.portfolio-item');
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxCounter = document.getElementById('lightboxCounter');
+  const images = Array.from(portfolioItems).map(item => ({
+    src: item.querySelector('img').src,
+    alt: item.querySelector('img').alt
+  }));
+  let currentLightbox = 0;
+
+  function openLightbox(index) {
+    currentLightbox = index;
+    lightboxImg.src = images[index].src;
+    lightboxImg.alt = images[index].alt;
+    lightboxCounter.textContent = (index + 1) + ' / ' + images.length;
+    lightbox.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    lightbox.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function lightboxNav(dir) {
+    currentLightbox = (currentLightbox + dir + images.length) % images.length;
+    lightboxImg.src = images[currentLightbox].src;
+    lightboxImg.alt = images[currentLightbox].alt;
+    lightboxCounter.textContent = (currentLightbox + 1) + ' / ' + images.length;
+  }
+
+  portfolioItems.forEach((item, i) => {
+    item.addEventListener('click', () => openLightbox(i));
+  });
+
+  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+  document.getElementById('lightboxPrev').addEventListener('click', () => lightboxNav(-1));
+  document.getElementById('lightboxNext').addEventListener('click', () => lightboxNav(1));
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) closeLightbox();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!lightbox.classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxNav(-1);
+    if (e.key === 'ArrowRight') lightboxNav(1);
+  });
+
+
+  // ── VIDEO POPUP ──
+  const playBtn = document.getElementById('playBtn');
+  const videoPopup = document.getElementById('videoPopup');
+  const videoClose = document.getElementById('videoClose');
+  const aboutVideo = document.getElementById('aboutVideo');
+
+  playBtn.addEventListener('click', () => {
+    videoPopup.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    aboutVideo.play();
+  });
+
+  function closeVideo() {
+    videoPopup.classList.remove('active');
+    document.body.style.overflow = '';
+    aboutVideo.pause();
+    aboutVideo.currentTime = 0;
+  }
+
+  videoClose.addEventListener('click', closeVideo);
+  videoPopup.addEventListener('click', (e) => {
+    if (e.target === videoPopup) closeVideo();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && videoPopup.classList.contains('active')) closeVideo();
+  });
+
+
+  // ── ESTIMATE POPUP ──
+  function openEstimate(btn) {
+    const service = btn.getAttribute('data-service');
+    document.getElementById('estimatePopupTitle').textContent = service;
+    document.getElementById('estimate-service-field').value = service;
+    // Сброс формы при открытии
+    document.getElementById('estimateForm').reset();
+    document.getElementById('estimate-service-field').value = service;
+    document.getElementById('efMessage').className = 'form-message';
+    document.getElementById('efSubmit').disabled = false;
+    document.getElementById('efSubmit').textContent = 'Send inquiry';
+    document.getElementById('estimatePopup').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  document.getElementById('estimateClose').addEventListener('click', () => {
+    document.getElementById('estimatePopup').classList.remove('active');
+    document.body.style.overflow = '';
+  });
+
+  document.getElementById('estimatePopup').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('estimatePopup')) {
+      document.getElementById('estimatePopup').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && document.getElementById('estimatePopup').classList.contains('active')) {
+      document.getElementById('estimatePopup').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+  });
+
+
+  // ── REVIEWS CAROUSEL ──
+  (function() {
+    const track = document.getElementById('reviewsTrack');
+    if (!track) return;
+    const cards = track.querySelectorAll('.review-card');
+    let current = 0;
+
+    function cardWidth() {
+      return cards[0].offsetWidth + parseInt(getComputedStyle(track).gap);
+    }
+
+    function maxIndex() {
+      // Show last card peeking — stop before last full card
+      const visible = Math.floor(track.parentElement.offsetWidth / cardWidth());
+      return Math.max(0, cards.length - visible);
+    }
+
+    function move(dir) {
+      current = Math.max(0, Math.min(current + dir, maxIndex()));
+      track.style.transform = 'translateX(-' + (current * cardWidth()) + 'px)';
+    }
+
+    document.getElementById('reviewsPrev').addEventListener('click', () => move(-1));
+    document.getElementById('reviewsNext').addEventListener('click', () => move(1));
+
+    // Touch/swipe support
+    let startX = 0;
+    track.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const diff = startX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) move(diff > 0 ? 1 : -1);
+    });
+
+    window.addEventListener('resize', () => {
+      current = Math.min(current, maxIndex());
+      track.style.transform = 'translateX(-' + (current * cardWidth()) + 'px)';
+    });
+  })();
+
+
+  // ── CONTACT FORM — Email + Telegram ──
+  // Configure these before going live:
+  const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';   // заменить
+  const TELEGRAM_CHAT_ID   = 'YOUR_CHAT_ID';     // заменить
+  const EMAIL_ENDPOINT     = '';                  // заменить на endpoint (EmailJS / Formspree / etc.)
+
+  document.getElementById('contactForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('cfSubmit');
+    const msg = document.getElementById('cfMessage');
+    msg.className = 'form-message';
+    msg.style.display = 'none';
+
+    const data = {
+      name:     document.getElementById('cf-name').value.trim(),
+      email:    document.getElementById('cf-email').value.trim(),
+      phone:    document.getElementById('cf-phone').value.trim(),
+      location: document.getElementById('cf-location').value.trim(),
+      message:  document.getElementById('cf-message').value.trim(),
+    };
+
+    // Highlight empty required fields — имя и телефон обязательны
+    const requiredFields = [
+      { id: 'cf-name',  val: data.name },
+      { id: 'cf-phone', val: data.phone },
+    ];
+    let hasErrors = false;
+    requiredFields.forEach(function(f) {
+      const el = document.getElementById(f.id);
+      el.classList.remove('field-error');
+      if (!f.val) {
+        el.classList.add('field-error');
+        hasErrors = true;
+        // Remove error class after animation
+        el.addEventListener('input', function() {
+          el.classList.remove('field-error');
+        }, { once: true });
+      }
+    });
+    if (hasErrors) {
+      msg.textContent = 'Please fill in the highlighted fields.';
+      msg.className = 'form-message error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      // ── Telegram ──
+      if (TELEGRAM_BOT_TOKEN !== 'YOUR_BOT_TOKEN') {
+        const text = [
+          '📩 New inquiry — Palm Beach STR Design',
+          '👤 ' + data.name,
+          '📧 ' + data.email,
+          '📞 ' + (data.phone || '—'),
+          '📍 ' + (data.location || '—'),
+          '💬 ' + (data.message || '—'),
+        ].join('\n');
+
+        await fetch('https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text }),
+        });
+      }
+
+      // ── Email (Formspree / EmailJS — настроить endpoint) ──
+      // if (EMAIL_ENDPOINT) {
+      //   await fetch(EMAIL_ENDPOINT, {
+      //     method: 'POST',
+      //     headers: { 'Content-Type': 'application/json' },
+      //     body: JSON.stringify(data),
+      //   });
+      // }
+
+      window.location.href = 'thanks.html';
+
+    } catch(err) {
+      msg.textContent = 'Something went wrong. Please email us directly.';
+      msg.className = 'form-message error';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Send inquiry';
+    }
+  });
+
+</script>
+
+
+<!-- ════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="footer-inner fade-in">
+
+    <!-- Logo -->
+    <a href="#home" class="footer-logo">
+      <img src="images/logo_white.svg" alt="Palm Beach STR Design" class="footer-logo-svg">
+    </a>
+
+    <!-- Copyright -->
+    <p class="footer-copy">
+      © 2026 Palm Beach STR Design<br>
+      West Palm Beach, Florida
+    </p>
+
+    <!-- Dev credit -->
+    <p class="footer-dev">
+      Site development<br>
+      <a href="https://hawk-style.com/" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">Hawk Style Design</a>
+    </p>
+
+  </div>
+</footer>
+
+
+<script>
+  // ── PHONE MASK ──
+  document.querySelectorAll('input[type="tel"]').forEach(function(input) {
+    input.addEventListener('input', function(e) {
+      let val = e.target.value.replace(/\D/g, '');
+      if (val.startsWith('1')) val = val.slice(1);
+      val = val.slice(0, 10);
+      let formatted = '+1 ';
+      if (val.length > 0) formatted += '(' + val.slice(0, 3);
+      if (val.length >= 3) formatted += ') ' + val.slice(3, 6);
+      if (val.length >= 6) formatted += '-' + val.slice(6, 10);
+      e.target.value = formatted;
+    });
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Backspace' && e.target.value === '+1 ') e.target.value = '';
+    });
+    input.addEventListener('focus', function(e) {
+      if (!e.target.value) e.target.value = '+1 ';
+    });
+    input.addEventListener('blur', function(e) {
+      if (e.target.value === '+1 ') e.target.value = '';
+    });
+  });
+
+  // ── PARALLAX — sections About, Banner, Contact ──
+  (function() {
+    var sections = [
+      { wrap: document.querySelector('.about-section'),   img: document.querySelector('.about-bg img') },
+      { wrap: document.querySelector('.banner-section'),  img: document.querySelector('.banner-bg img') },
+      { wrap: document.querySelector('.contact-section'), img: document.querySelector('.contact-bg img') },
+    ].filter(function(p){ return p.wrap && p.img; });
+
+    sections.forEach(function(p) {
+      p.img.style.willChange = 'transform';
+      p.img.style.transformOrigin = 'center center';
+    });
+
+    function tick() {
+      var wh = window.innerHeight;
+      sections.forEach(function(p) {
+        var rect = p.wrap.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > wh) return;
+        var progress = (wh - rect.top) / (wh + rect.height);
+        var offset = (progress - 0.5) * 160;
+        p.img.style.transform = 'translateY(' + offset + 'px) scale(1.1)';
+      });
+    }
+
+    window.addEventListener('scroll', tick, { passive: true });
+    tick();
+  })();
+</script>
+
+
+<script>
+  // ── ANIMATED COUNTERS ──
+  (function() {
+    function animateCounter(el) {
+      var target = parseInt(el.getAttribute('data-target'), 10);
+      var suffix = el.getAttribute('data-suffix') || '';
+      var duration = 1800;
+      var start = null;
+      // For the star stat (5★), update inner .stat-count span
+      var countEl = el.querySelector('.stat-count') || el;
+      var hasStar = !!el.querySelector('.stat-star');
+
+      function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+
+      function step(ts) {
+        if (!start) start = ts;
+        var elapsed = ts - start;
+        var progress = Math.min(elapsed / duration, 1);
+        var value = Math.round(easeOut(progress) * target);
+
+        if (hasStar) {
+          countEl.textContent = value;
+        } else {
+          el.textContent = value + suffix;
+        }
+
+        if (progress < 1) requestAnimationFrame(step);
+        else {
+          if (hasStar) countEl.textContent = target;
+          else el.textContent = target + suffix;
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Trigger when hero stats enter viewport (IntersectionObserver)
+    var statEls = document.querySelectorAll('.stat-num[data-target]');
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            animateCounter(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.3 });
+      statEls.forEach(function(el) { observer.observe(el); });
+    } else {
+      statEls.forEach(animateCounter);
+    }
+  })();
+
+  // ── ACTIVE NAV SECTION HIGHLIGHT ──
+  (function() {
+    var sections = document.querySelectorAll('section[id], footer[id]');
+    var navLinks = document.querySelectorAll('.nav-links a');
+
+    function setActive() {
+      var scrollY = window.scrollY + 100;
+      var current = '';
+      sections.forEach(function(sec) {
+        if (sec.offsetTop <= scrollY) current = sec.id;
+      });
+      navLinks.forEach(function(a) {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+      });
+    }
+
+    window.addEventListener('scroll', setActive, { passive: true });
+    setActive();
+  })();
+</script>
+
+
+<script>
+  // ── PRELOADER ──
+  (function() {
+    document.body.classList.add('loading');
+
+    var counter = document.getElementById('preloaderCounter');
+    var preloader = document.getElementById('preloader');
+    var duration = 2000; // 2 sec
+    var start = null;
+    var startVal = 1;
+    var endVal = 100;
+
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+
+    function stepCounter(ts) {
+      if (!start) start = ts;
+      var elapsed = ts - start;
+      var progress = Math.min(elapsed / duration, 1);
+      // ease in-out
+      var eased = progress < .5
+        ? 2 * progress * progress
+        : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+      var val = Math.round(startVal + eased * (endVal - startVal));
+      counter.textContent = pad(val);
+      if (progress < 1) {
+        requestAnimationFrame(stepCounter);
+      } else {
+        counter.textContent = '100';
+        // Circle up — прелоудер уезжает кругом наверх
+        setTimeout(function() {
+          document.body.classList.remove('loading');
+          preloader.classList.add('hiding');
+          setTimeout(function() {
+            preloader.classList.add('hidden');
+          }, 900);
+        }, 150);
+      }
+    }
+
+    // Start counter once fonts are ready (or after short delay)
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function() {
+        requestAnimationFrame(stepCounter);
+      });
+    } else {
+      requestAnimationFrame(stepCounter);
+    }
+  })();
+</script>
+
+
+<script>
+  // ── FADE-IN ON SCROLL ──
+  (function() {
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.08,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.fade-in').forEach(function(el) {
+      observer.observe(el);
+    });
+  })();
+
+  // ── MOBILE MENU ACTIVE SECTION ──
+  (function() {
+    var sections = document.querySelectorAll('section[id]');
+    var mobLinks = document.querySelectorAll('.mobile-menu a.mob-link');
+
+    function setMobileActive() {
+      var scrollY = window.scrollY + 120;
+      var current = '';
+      sections.forEach(function(sec) {
+        if (sec.offsetTop <= scrollY) current = sec.id;
+      });
+      mobLinks.forEach(function(a) {
+        a.classList.remove('active');
+        var href = a.getAttribute('href');
+        if (href === '#' + current) a.classList.add('active');
+      });
+    }
+    window.addEventListener('scroll', setMobileActive, { passive: true });
+    setMobileActive();
+  })();
+
+  // ── ESTIMATE FORM submit ──
+  document.getElementById('estimateForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var btn = document.getElementById('efSubmit');
+    var msg = document.getElementById('efMessage');
+    msg.className = 'form-message';
+
+    var service  = document.getElementById('estimate-service-field').value;
+    var name     = document.getElementById('ef-name').value.trim();
+    var email    = document.getElementById('ef-email').value.trim();
+    var phone    = document.getElementById('ef-phone').value.trim();
+    var location = document.getElementById('ef-location').value.trim();
+    var message  = document.getElementById('ef-message').value.trim();
+
+    var hasErrors = false;
+    [['ef-name', name], ['ef-phone', phone]].forEach(function(pair) {
+      var el = document.getElementById(pair[0]);
+      el.classList.remove('field-error');
+      if (!pair[1]) {
+        el.classList.add('field-error');
+        hasErrors = true;
+        el.addEventListener('input', function() { el.classList.remove('field-error'); }, { once: true });
+      }
+    });
+    if (hasErrors) {
+      msg.textContent = 'Please fill in the highlighted fields.';
+      msg.className = 'form-message error';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    try {
+      if (TELEGRAM_BOT_TOKEN !== 'YOUR_BOT_TOKEN') {
+        var text = [
+          'Estimate Request — Palm Beach STR Design',
+          'Service: ' + service,
+          'Name: ' + name,
+          'Email: ' + email,
+          'Phone: ' + (phone || 'not provided'),
+          'Location: ' + (location || 'not provided'),
+          'Message: ' + (message || 'not provided'),
+        ].join('\n');
+        await fetch('https://api.telegram.org/bot' + TELEGRAM_BOT_TOKEN + '/sendMessage', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: TELEGRAM_CHAT_ID, text: text }),
+        });
+      }
+      window.location.href = 'thanks.html';
+    } catch(err) {
+      msg.textContent = 'Something went wrong. Please email us directly.';
+      msg.className = 'form-message error';
+      btn.disabled = false;
+      btn.textContent = 'Send inquiry';
+    }
+  });
+
+</script>
+
+
+
+
+
+
+</body>
+</html>
