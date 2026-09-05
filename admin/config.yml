@@ -16,6 +16,8 @@ collections:
     folder: "content/services"
     create: true
     slug: "{{slug}}"
+    extension: "json"
+    format: "json"
     fields:
       - { label: "Number", name: "number", widget: "string", hint: "e.g. 01" }
       - { label: "Name", name: "name", widget: "string" }
@@ -29,6 +31,8 @@ collections:
     folder: "content/portfolio"
     create: true
     slug: "{{slug}}"
+    extension: "json"
+    format: "json"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Photo", name: "photo", widget: "image" }
@@ -41,6 +45,8 @@ collections:
     folder: "content/reviews"
     create: true
     slug: "{{slug}}"
+    extension: "json"
+    format: "json"
     fields:
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Initials", name: "initials", widget: "string", hint: "e.g. PS" }
@@ -54,6 +60,8 @@ collections:
     folder: "content/pricing"
     create: true
     slug: "{{slug}}"
+    extension: "json"
+    format: "json"
     fields:
       - { label: "Service Name", name: "name", widget: "string" }
       - { label: "Price", name: "price", widget: "string", hint: "e.g. From $3,000" }
@@ -67,6 +75,7 @@ collections:
       - label: "Contact Information"
         name: "contacts"
         file: "content/settings/contacts.json"
+        format: "json"
         fields:
           - { label: "Email", name: "email", widget: "string" }
           - { label: "Instagram URL", name: "instagram", widget: "string" }
