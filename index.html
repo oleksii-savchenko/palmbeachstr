@@ -3292,6 +3292,7 @@
 
 
 </style>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
@@ -4600,5 +4601,42 @@
 
 
 
+
+<script>
+  // Netlify Identity — обработка токенов подтверждения и восстановления
+  if (window.netlifyIdentity) {
+    window.netlifyIdentity.on("init", user => {
+      if (!user) {
+        window.netlifyIdentity.on("login", () => {
+          document.location.href = "/admin/";
+        });
+      }
+    });
+  }
+
+  // Если в URL есть invite/confirmation/recovery токен — открываем виджет
+  (function() {
+    var hash = window.location.hash;
+    if (
+      hash.indexOf('confirmation_token=') !== -1 ||
+      hash.indexOf('invite_token=') !== -1 ||
+      hash.indexOf('recovery_token=') !== -1
+    ) {
+      // Ждём загрузки виджета и открываем
+      var attempts = 0;
+      var timer = setInterval(function() {
+        attempts++;
+        if (window.netlifyIdentity) {
+          clearInterval(timer);
+          window.netlifyIdentity.open();
+          window.netlifyIdentity.on("login", function() {
+            document.location.href = "/admin/";
+          });
+        }
+        if (attempts > 20) clearInterval(timer);
+      }, 300);
+    }
+  })();
+</script>
 </body>
 </html>
