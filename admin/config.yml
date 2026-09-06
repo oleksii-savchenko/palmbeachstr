@@ -1,6 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: oleksii-savchenko/palmbeachstr
   branch: main
+  base_url: https://cms-auth.hawkstyle-order.workers.dev
+  auth_endpoint: /callback
 
 media_folder: "images"
 public_folder: "/images"
