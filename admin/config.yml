@@ -12,7 +12,6 @@ locale: en
 
 collections:
 
-  # ── УСЛУГИ ──
   - name: "services"
     label: "Services"
     label_singular: "Service"
@@ -22,12 +21,11 @@ collections:
     extension: "json"
     format: "json"
     fields:
-      - { label: "Number", name: "number", widget: "string", hint: "e.g. 01" }
+      - { label: "Number", name: "number", widget: "string" }
       - { label: "Name", name: "name", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Photo", name: "photo", widget: "image" }
 
-  # ── ПОРТФОЛИО ──
   - name: "portfolio"
     label: "Portfolio"
     label_singular: "Photo"
@@ -39,9 +37,8 @@ collections:
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Photo", name: "photo", widget: "image" }
-      - { label: "Label (Before/After etc.)", name: "label", widget: "string", required: false }
+      - { label: "Label", name: "label", widget: "string", required: false }
 
-  # ── ОТЗЫВЫ ──
   - name: "reviews"
     label: "Reviews"
     label_singular: "Review"
@@ -52,11 +49,10 @@ collections:
     format: "json"
     fields:
       - { label: "Name", name: "name", widget: "string" }
-      - { label: "Initials", name: "initials", widget: "string", hint: "e.g. PS" }
-      - { label: "Date & Service", name: "meta", widget: "string", hint: "e.g. April 2026 · Interior Design" }
+      - { label: "Initials", name: "initials", widget: "string" }
+      - { label: "Date & Service", name: "meta", widget: "string" }
       - { label: "Review Text", name: "text", widget: "text" }
 
-  # ── ЦЕНЫ ──
   - name: "pricing"
     label: "Prices"
     label_singular: "Service Price"
@@ -67,11 +63,10 @@ collections:
     format: "json"
     fields:
       - { label: "Service Name", name: "name", widget: "string" }
-      - { label: "Price", name: "price", widget: "string", hint: "e.g. From $3,000" }
+      - { label: "Price", name: "price", widget: "string" }
       - { label: "Description", name: "description", widget: "text" }
       - { label: "Photo", name: "photo", widget: "image" }
 
-  # ── КОНТАКТЫ ──
   - name: "settings"
     label: "Settings & Contacts"
     files:
