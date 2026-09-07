@@ -4294,8 +4294,8 @@
 
   // ── CONTACT FORM — Email + Telegram ──
   // Configure these before going live:
-  const TELEGRAM_BOT_TOKEN = 'YOUR_BOT_TOKEN';   // заменить
-  const TELEGRAM_CHAT_ID   = 'YOUR_CHAT_ID';     // заменить
+  const TELEGRAM_BOT_TOKEN = '8973692637:AAFhfw4aSnp2cK2TdPCwmCOX_Sx2srHTC5w';
+  const TELEGRAM_CHAT_ID   = '-5519088408';
   const EMAIL_ENDPOINT     = '';                  // заменить на endpoint (EmailJS / Formspree / etc.)
 
   document.getElementById('contactForm').addEventListener('submit', async function(e) {
@@ -4342,7 +4342,7 @@
 
     try {
       // ── Telegram ──
-      if (TELEGRAM_BOT_TOKEN !== 'YOUR_BOT_TOKEN') {
+      if (true) {
         const text = [
           '📩 New inquiry — Palm Beach STR Design',
           '👤 ' + data.name,
@@ -4684,7 +4684,7 @@
     btn.textContent = 'Sending...';
 
     try {
-      if (TELEGRAM_BOT_TOKEN !== 'YOUR_BOT_TOKEN') {
+      if (true) {
         var text = [
           'Estimate Request — Palm Beach STR Design',
           'Service: ' + service,
