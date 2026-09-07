@@ -3706,7 +3706,7 @@
   <div class="video-popup-inner">
     <button class="video-close" id="videoClose">✕</button>
     <video id="aboutVideo" controls playsinline>
-      <source src="video/about.mp4" type="video/mp4">
+      <source data-src="video/about.mp4" type="video/mp4">
     </video>
   </div>
 </div>
@@ -4859,6 +4859,43 @@
   }
 
 })();
+</script>
+
+
+<script>
+  // ── LAZY LOAD about.mp4 ──
+  (function() {
+    var video = document.getElementById('aboutVideo');
+    if (!video) return;
+
+    var loaded = false;
+
+    function loadVideo() {
+      if (loaded) return;
+      loaded = true;
+      var source = video.querySelector('source[data-src]');
+      if (source) {
+        source.src = source.getAttribute('data-src');
+        source.removeAttribute('data-src');
+        video.load();
+      }
+    }
+
+    // Загружаем когда блок About входит в зону видимости
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          loadVideo();
+          observer.disconnect();
+        }
+      });
+    }, { rootMargin: '200px' });
+
+    var aboutSection = document.getElementById('about');
+    if (aboutSection) {
+      observer.observe(aboutSection);
+    }
+  })();
 </script>
 
 </body>
