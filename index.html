@@ -4848,7 +4848,16 @@
         var initials = data.initials || data.name.split(' ').map(function(n){return n[0];}).join('');
         var newCard = document.createElement('div');
         newCard.className = 'review-card fade-in';
-        newCard.innerHTML = '<div class="review-header"><div class="review-avatar">'+initials+'</div><div class="review-author-info"><div class="review-name">'+data.name+'</div><div class="review-meta">'+(data.meta||'')+'</div><div class="review-stars">★★★★★</div></div></div><p class="review-text">"'+(data.text||'')+'"</p>';
+        newCard.innerHTML =
+          '<div class="review-author">' +
+            '<div class="review-avatar">' + initials + '</div>' +
+            '<div class="review-author-info">' +
+              '<div class="review-name">' + data.name + '</div>' +
+              '<div class="review-meta">' + (data.meta||'') + '</div>' +
+              '<div class="review-stars">★★★★★</div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="review-text">"' + (data.text||'') + '"</p>';
         reviewsTrack.appendChild(newCard);
       }
     });
