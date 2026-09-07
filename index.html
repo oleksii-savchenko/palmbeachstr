@@ -4792,104 +4792,90 @@
 
   async function loadAll() {
 
-    // ── Services — параллельная загрузка ──
-    const serviceFiles = [
-      '01-interior-design',
-      '02-furnishing',
-      '03-organization',
-      '04-photography',
-      '05-revenue',
-    ];
-    const serviceData = await Promise.all(
-      serviceFiles.map(slug => loadJSON('/content/services/' + slug + '.json'))
-    );
-    serviceFiles.forEach(function(slug, i) {
-      const data = serviceData[i];
-      if (!data) return;
-      const row = document.querySelector('[data-cms-service="' + slug + '"]');
-      if (!row) return;
-      row.querySelectorAll('[data-cms-field]').forEach(el => {
-        updateEl(el, data, el.getAttribute('data-cms-field'));
-      });
+    // Загружаем список файлов из папки через GitHub API
+    async function listFiles(folder) {
+      try {
+        var res = await fetch('https://api.github.com/repos/oleksii-savchenko/palmbeachstr/contents/content/' + folder);
+        if (!res.ok) return [];
+        var files = await res.json();
+        return files.filter(function(f){ return f.name.endsWith('.json'); })
+                    .map(function(f){ return f.name.replace('.json',''); });
+      } catch(e) { return []; }
+    }
+
+    // ── Services ──
+    var serviceFiles = ['01-interior-design','02-furnishing','03-organization','04-photography','05-revenue'];
+    var serviceData = await Promise.all(serviceFiles.map(function(s){ return loadJSON('/content/services/'+s+'.json'); }));
+    serviceFiles.forEach(function(slug,i) {
+      var data = serviceData[i]; if (!data) return;
+      var row = document.querySelector('[data-cms-service="'+slug+'"]'); if (!row) return;
+      row.querySelectorAll('[data-cms-field]').forEach(function(el){ updateEl(el, data, el.getAttribute('data-cms-field')); });
     });
 
     // ── Pricing ──
-    const pricingFiles = [
-      'home-staging',
-      'interior-design',
-      'space-organization',
-      'property-management',
-    ];
-    for (const slug of pricingFiles) {
-      const data = await loadJSON('/content/pricing/' + slug + '.json');
-      if (!data) continue;
-      // Название
-      const nameEl = document.querySelector('[data-cms-pricing="' + slug + '"]');
+    var pricingFiles = ['home-staging','interior-design','space-organization','property-management'];
+    for (var pi=0; pi<pricingFiles.length; pi++) {
+      var slug = pricingFiles[pi];
+      var data = await loadJSON('/content/pricing/'+slug+'.json'); if (!data) continue;
+      var nameEl = document.querySelector('[data-cms-pricing="'+slug+'"]');
       if (nameEl) nameEl.textContent = data.name;
-      // Цена — следующий элемент после названия
-      const card = nameEl ? nameEl.closest('.pricing-card') : null;
+      var card = nameEl ? nameEl.closest('.pricing-card') : null;
       if (card) {
-        const priceEl = card.querySelector('.pricing-price');
-        if (priceEl && data.price) priceEl.textContent = data.price;
-        const descEl = card.querySelector('.pricing-desc');
-        if (descEl && data.description) descEl.textContent = data.description;
-        const imgEl = card.querySelector('.pricing-img');
-        if (imgEl && data.photo) { imgEl.src = data.photo; }
+        var priceEl = card.querySelector('.pricing-price'); if (priceEl && data.price) priceEl.textContent = data.price;
+        var descEl = card.querySelector('.pricing-desc'); if (descEl && data.description) descEl.textContent = data.description;
+        var imgEl = card.querySelector('.pricing-img'); if (imgEl && data.photo) imgEl.src = data.photo;
       }
     }
 
-    // ── Reviews — параллельна загрузка ──
-    const reviewFiles = ['paras-s', 'ajay-s', 'svetlana-v', 'jeremy-b', 'anna-a', 'paula-b'];
-    const reviewData = await Promise.all(
-      reviewFiles.map(slug => loadJSON('/content/reviews/' + slug + '.json'))
-    );
-    reviewFiles.forEach(function(slug, i) {
-      const data = reviewData[i];
-      if (!data) return;
-      // Находим элементы по data-cms-review
-      const nameEl = document.querySelector('[data-cms-review="' + slug + '"][data-cms-field="name"]');
-      if (!nameEl) return;
-      const card = nameEl.closest('.review-card');
-      if (!card) return;
-      nameEl.textContent = data.name;
-      const metaEl = document.querySelector('[data-cms-review="' + slug + '"][data-cms-field="meta"]');
-      if (metaEl && data.meta) metaEl.textContent = data.meta;
-      const textEl = document.querySelector('[data-cms-review="' + slug + '"][data-cms-field="text"]');
-      if (textEl && data.text) textEl.textContent = '"' + data.text + '"';
-      const avatarEl = card.querySelector('.review-avatar');
-      if (avatarEl && data.initials) avatarEl.textContent = data.initials;
+    // ── Reviews — динамический список ──
+    var reviewFiles = await listFiles('reviews');
+    if (!reviewFiles.length) reviewFiles = ['paras-s','ajay-s','svetlana-v','jeremy-b','anna-a','paula-b'];
+    var reviewData = await Promise.all(reviewFiles.map(function(s){ return loadJSON('/content/reviews/'+s+'.json'); }));
+    var reviewsTrack = document.querySelector('.reviews-track');
+    reviewFiles.forEach(function(slug,i) {
+      var data = reviewData[i]; if (!data) return;
+      var nameEl = document.querySelector('[data-cms-review="'+slug+'"][data-cms-field="name"]');
+      if (nameEl) {
+        nameEl.textContent = data.name;
+        var metaEl = document.querySelector('[data-cms-review="'+slug+'"][data-cms-field="meta"]');
+        if (metaEl && data.meta) metaEl.textContent = data.meta;
+        var textEl = document.querySelector('[data-cms-review="'+slug+'"][data-cms-field="text"]');
+        if (textEl && data.text) textEl.textContent = '"'+data.text+'"';
+        var card = nameEl.closest('.review-card');
+        var avatarEl = card ? card.querySelector('.review-avatar') : null;
+        if (avatarEl && data.initials) avatarEl.textContent = data.initials;
+      } else if (reviewsTrack && data.name) {
+        var initials = data.initials || data.name.split(' ').map(function(n){return n[0];}).join('');
+        var newCard = document.createElement('div');
+        newCard.className = 'review-card fade-in';
+        newCard.innerHTML = '<div class="review-header"><div class="review-avatar">'+initials+'</div><div class="review-author-info"><div class="review-name">'+data.name+'</div><div class="review-meta">'+(data.meta||'')+'</div><div class="review-stars">★★★★★</div></div></div><p class="review-text">"'+(data.text||'')+'"</p>';
+        reviewsTrack.appendChild(newCard);
+      }
     });
 
-    // ── Portfolio — параллельна загрузка ──
-    const portfolioFiles = ['portfolio-01','portfolio-02','portfolio-03','portfolio-04',
-                            'portfolio-05','portfolio-06','portfolio-07','portfolio-08'];
-    const portfolioData = await Promise.all(
-      portfolioFiles.map(slug => loadJSON('/content/portfolio/' + slug + '.json'))
-    );
-    portfolioFiles.forEach(function(slug, i) {
-      const data = portfolioData[i];
-      if (!data) return;
-      const img = document.querySelector('[data-cms-portfolio="' + slug + '"]');
-      if (img && data.photo) {
-        img.src = data.photo;
-        img.alt = data.title || '';
-      }
-      // Обновляем лейбл если есть
-      if (img && data.label) {
-        const label = img.closest('.portfolio-item') ? 
-          img.closest('.portfolio-item').querySelector('.portfolio-label') : null;
-        if (label) label.textContent = data.label;
+    // ── Portfolio — динамический список ──
+    var portfolioFiles = await listFiles('portfolio');
+    if (!portfolioFiles.length) portfolioFiles = ['portfolio-01','portfolio-02','portfolio-03','portfolio-04','portfolio-05','portfolio-06','portfolio-07','portfolio-08'];
+    var portfolioData = await Promise.all(portfolioFiles.map(function(s){ return loadJSON('/content/portfolio/'+s+'.json'); }));
+    var portfolioGrid = document.querySelector('.portfolio-grid');
+    portfolioFiles.forEach(function(slug,i) {
+      var data = portfolioData[i]; if (!data||!data.photo) return;
+      var img = document.querySelector('[data-cms-portfolio="'+slug+'"]');
+      if (img) { img.src = data.photo; img.alt = data.title||''; }
+      else if (portfolioGrid) {
+        var item = document.createElement('div');
+        item.className = 'portfolio-item';
+        item.innerHTML = '<img src="'+data.photo+'" alt="'+(data.title||'')+'" class="portfolio-img" data-cms-portfolio="'+slug+'">'+(data.label?'<span class="portfolio-label">'+data.label+'</span>':'');
+        item.addEventListener('click', function(){ if(window.openLightbox) window.openLightbox(data.photo); });
+        portfolioGrid.appendChild(item);
       }
     });
 
     // ── Contacts ──
-    const contacts = await loadJSON('/content/settings/contacts.json');
+    var contacts = await loadJSON('/content/settings/contacts.json');
     if (contacts) {
-      const emailEl = document.querySelector('[data-cms-contact="email"]');
-      if (emailEl && contacts.email) {
-        emailEl.textContent = contacts.email;
-        emailEl.href = 'mailto:' + contacts.email;
-      }
+      var emailEl = document.querySelector('[data-cms-contact="email"]');
+      if (emailEl && contacts.email) { emailEl.textContent = contacts.email; emailEl.href = 'mailto:'+contacts.email; }
     }
   }
 
