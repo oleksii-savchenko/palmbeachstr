@@ -3133,6 +3133,33 @@
   }
 
 </style>
+
+<style>
+  /* Hero overlay на мобайле */
+  @media (max-width: 768px) {
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(21,21,21,.65) !important;
+      z-index: 3;
+    }
+    /* Отступ после кнопок */
+    .hero-actions {
+      margin-bottom: clamp(40px, 8vw, 72px) !important;
+    }
+  }
+  /* Overlay десктоп */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(21,21,21,.55);
+    z-index: 3;
+  }
+  .hero-content { z-index: 4 !important; }
+</style>
+
 </head>
 <body>
 

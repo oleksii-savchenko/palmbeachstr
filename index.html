@@ -3291,6 +3291,73 @@
   }
 
 
+
+  @media (max-width: 768px) {
+    /* Затемнение hero на мобайле */
+    .hero-bg::after {
+      background: rgba(21,21,21,.65) !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .video-popup .popup-close {
+      display: flex !important;
+      position: fixed !important;
+      top: 20px !important;
+      right: 20px !important;
+      z-index: 9999 !important;
+      width: 44px !important;
+      height: 44px !important;
+      background: rgba(255,255,255,.15) !important;
+      border: 1px solid rgba(255,255,255,.3) !important;
+      border-radius: 50% !important;
+      color: #fff !important;
+      font-size: 20px !important;
+      align-items: center !important;
+      justify-content: center !important;
+      cursor: pointer !important;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .hero-actions {
+      margin-bottom: clamp(32px, 6vw, 56px) !important;
+    }
+  }
+
+
+  /* Lightbox мобайл — стрелки по бокам фото в ряд */
+  @media (max-width: 768px) {
+    .lightbox-inner {
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 12px !important;
+      padding: 0 8px !important;
+      max-width: 100vw !important;
+      box-sizing: border-box !important;
+    }
+    .lightbox-img {
+      flex: 1 1 auto !important;
+      max-width: calc(100vw - 120px) !important;
+      max-height: 75vh !important;
+      width: auto !important;
+      height: auto !important;
+      object-fit: contain !important;
+    }
+    #lightboxPrev,
+    #lightboxNext {
+      flex-shrink: 0 !important;
+      width: 44px !important;
+      height: 44px !important;
+      order: unset !important;
+    }
+    #lightboxPrev { order: 1 !important; }
+    .lightbox-img  { order: 2 !important; }
+    #lightboxNext { order: 3 !important; }
+  }
+
 </style>
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
@@ -4668,7 +4735,7 @@
 
   async function loadAll() {
 
-    // ── Services ──
+    // ── Services — параллельная загрузка ──
     const serviceFiles = [
       '01-interior-design',
       '02-furnishing',
@@ -4676,15 +4743,18 @@
       '04-photography',
       '05-revenue',
     ];
-    for (const slug of serviceFiles) {
-      const data = await loadJSON('/content/services/' + slug + '.json');
-      if (!data) continue;
+    const serviceData = await Promise.all(
+      serviceFiles.map(slug => loadJSON('/content/services/' + slug + '.json'))
+    );
+    serviceFiles.forEach(function(slug, i) {
+      const data = serviceData[i];
+      if (!data) return;
       const row = document.querySelector('[data-cms-service="' + slug + '"]');
-      if (!row) continue;
+      if (!row) return;
       row.querySelectorAll('[data-cms-field]').forEach(el => {
         updateEl(el, data, el.getAttribute('data-cms-field'));
       });
-    }
+    });
 
     // ── Pricing ──
     const pricingFiles = [
@@ -4740,11 +4810,30 @@
     }
   }
 
-  // Запускаем после загрузки страницы
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', loadAll);
-  } else {
+  // Запускаем ПОСЛЕ скрытия прелоудера чтобы не тормозить загрузку
+  // и делаем все запросы параллельно
+  function startLoader() {
     loadAll();
+  }
+
+  // Ждём когда прелоудер скроется
+  var preloader = document.getElementById('preloader');
+  if (preloader) {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.target.classList.contains('hidden')) {
+          observer.disconnect();
+          startLoader();
+        }
+      });
+    });
+    observer.observe(preloader, { attributes: true, attributeFilter: ['class'] });
+  } else {
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startLoader);
+    } else {
+      startLoader();
+    }
   }
 
 })();
