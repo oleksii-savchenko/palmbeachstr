@@ -4879,30 +4879,20 @@
     }
   }
 
-  // Запускаем ПОСЛЕ скрытия прелоудера чтобы не тормозить загрузку
-  // и делаем все запросы параллельно
+  // Запускаем loader сразу — не ждём прелоудера
   function startLoader() {
-    loadAll();
+    console.log('[CMS] Starting loader...');
+    loadAll().then(function() {
+      console.log('[CMS] Done');
+    }).catch(function(e) {
+      console.error('[CMS] Error:', e);
+    });
   }
 
-  // Ждём когда прелоудер скроется
-  var preloader = document.getElementById('preloader');
-  if (preloader) {
-    var observer = new MutationObserver(function(mutations) {
-      mutations.forEach(function(m) {
-        if (m.target.classList.contains('hidden')) {
-          observer.disconnect();
-          startLoader();
-        }
-      });
-    });
-    observer.observe(preloader, { attributes: true, attributeFilter: ['class'] });
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startLoader);
   } else {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', startLoader);
-    } else {
-      startLoader();
-    }
+    startLoader();
   }
 
 })();
