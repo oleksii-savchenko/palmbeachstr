@@ -3440,8 +3440,8 @@
 <section class="hero" id="home">
   <div class="hero-bg">
     <div class="hero-bg-dark"></div>
-    <video autoplay muted loop playsinline class="hero-video" preload="none" poster="images/hero-poster.jpg">
-      <source src="video/videobg.mp4" type="video/mp4">
+    <video id="heroVideo" muted loop playsinline class="hero-video" poster="images/hero-poster.jpg">
+      <source data-src="video/videobg.mp4" type="video/mp4">
     </video>
   </div>
 
@@ -4904,6 +4904,44 @@
     var aboutSection = document.getElementById('about');
     if (aboutSection) {
       observer.observe(aboutSection);
+    }
+  })();
+</script>
+
+
+<script>
+  // ── HERO VIDEO — загружаем после прелоудера ──
+  (function() {
+    var video = document.getElementById('heroVideo');
+    if (!video) return;
+    var loaded = false;
+
+    function loadHeroVideo() {
+      if (loaded) return;
+      loaded = true;
+      var source = video.querySelector('source[data-src]');
+      if (source) {
+        source.src = source.getAttribute('data-src');
+        source.removeAttribute('data-src');
+        video.load();
+        video.play().catch(function(){});
+      }
+    }
+
+    // Ждём скрытия прелоудера
+    var preloader = document.getElementById('preloader');
+    if (preloader) {
+      var mo = new MutationObserver(function(mutations) {
+        mutations.forEach(function(m) {
+          if (m.target.classList.contains('hidden') || m.target.classList.contains('hiding')) {
+            mo.disconnect();
+            setTimeout(loadHeroVideo, 100);
+          }
+        });
+      });
+      mo.observe(preloader, { attributes: true, attributeFilter: ['class'] });
+    } else {
+      loadHeroVideo();
     }
   })();
 </script>
