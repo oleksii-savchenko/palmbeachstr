@@ -4877,6 +4877,52 @@
       var emailEl = document.querySelector('[data-cms-contact="email"]');
       if (emailEl && contacts.email) { emailEl.textContent = contacts.email; emailEl.href = 'mailto:'+contacts.email; }
     }
+
+    // ── Обновляем карусель отзывов ──
+    (function() {
+      var track = document.querySelector('.reviews-track');
+      var outer = document.querySelector('.reviews-carousel-outer');
+      if (!track || !outer) return;
+      var cards = track.querySelectorAll('.review-card');
+      var total = cards.length;
+      if (!total) return;
+
+      // Сбрасываем позицию
+      track.style.transform = 'translateX(0px)';
+
+      // Обновляем счётчик если есть
+      var counter = document.querySelector('.reviews-counter');
+      if (counter) counter.textContent = '1 / ' + total;
+
+      // Обновляем кнопки навигации — переподключаем обработчики
+      var btnPrev = document.getElementById('reviewsPrev');
+      var btnNext = document.getElementById('reviewsNext');
+      if (btnPrev && btnNext) {
+        var current = 0;
+        function getCardWidth() {
+          return cards[0] ? cards[0].offsetWidth + parseInt(getComputedStyle(track).gap || 0) : 0;
+        }
+        function goTo(idx) {
+          current = Math.max(0, Math.min(idx, total - 1));
+          track.style.transform = 'translateX(-' + (current * getCardWidth()) + 'px)';
+          if (counter) counter.textContent = (current + 1) + ' / ' + total;
+        }
+        // Клонируем кнопки чтобы убрать старые обработчики
+        var newPrev = btnPrev.cloneNode(true);
+        var newNext = btnNext.cloneNode(true);
+        btnPrev.parentNode.replaceChild(newPrev, btnPrev);
+        btnNext.parentNode.replaceChild(newNext, btnNext);
+        newPrev.addEventListener('click', function() { goTo(current - 1); });
+        newNext.addEventListener('click', function() { goTo(current + 1); });
+      }
+
+      // Применяем fade-in к новым карточкам
+      cards.forEach(function(card) {
+        if (!card.classList.contains('visible')) {
+          setTimeout(function() { card.classList.add('visible'); }, 100);
+        }
+      });
+    })();
   }
 
   // Запускаем loader сразу — не ждём прелоудера
