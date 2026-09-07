@@ -3358,8 +3358,30 @@
     #lightboxNext { order: 3 !important; }
   }
 
+
+  /* ── HERO MOBILE OVERLAY FIX ── */
+  @media (max-width: 768px) {
+    .hero-bg {
+      position: absolute !important;
+      inset: 0 !important;
+    }
+    .hero-bg::after {
+      content: '' !important;
+      position: absolute !important;
+      inset: 0 !important;
+      background: rgba(21,21,21,.65) !important;
+      z-index: 10 !important;
+      display: block !important;
+    }
+    .hero-video {
+      z-index: 2 !important;
+    }
+    .hero-content {
+      z-index: 11 !important;
+    }
+  }
+
 </style>
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
