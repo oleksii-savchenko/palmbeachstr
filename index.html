@@ -4874,7 +4874,7 @@
       else if (portfolioGrid) {
         var item = document.createElement('div');
         item.className = 'portfolio-item';
-        item.innerHTML = '<img src="'+data.photo+'" alt="'+(data.title||'')+'" class="portfolio-img" data-cms-portfolio="'+slug+'">'+(data.label?'<span class="portfolio-label">'+data.label+'</span>':'');
+        item.innerHTML = '<img src="'+data.photo+'" alt="'+(data.title||'')+'" class="portfolio-img" data-cms-portfolio="'+slug+'">'+(data.label?'':'');
         item.addEventListener('click', function(){ if(window.openLightbox) window.openLightbox(data.photo); });
         portfolioGrid.appendChild(item);
       }
